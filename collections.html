@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Shop handwoven sarees — silk, cotton and zari weaves at Aaraina."
+    />
+    <title>Shop & Collections | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ── HERO ── */
+      .collections-hero {
+        height: 55vh;
+        min-height: 400px;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        margin-top: var(--nav-h);
+      }
+      .collections-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("hero.jpeg") center 25% / cover no-repeat;
+        filter: brightness(0.45) saturate(1.1);
+        z-index: 0;
+      }
+      .collections-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(16, 18, 8, 0.85) 0%,
+          rgba(16, 18, 8, 0.1) 60%,
+          transparent
+        );
+        z-index: 1;
+      }
+      .collections-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 8% 60px;
+      }
+      .collections-hero-content .eyebrow {
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 14px;
+      }
+      .collections-hero-content h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        color: white;
+        line-height: 1.05;
+        font-style: italic;
+      }
+      .collections-hero-content h1 em {
+        font-style: normal;
+        color: var(--gold-light);
+      }
+
+      /* ── FILTER BAR ── */
+      .filter-bar {
+        padding: 18px 8%;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: var(--nav-h);
+        z-index: 100;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+      }
+      .filter-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: var(--max-w);
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+      .filter-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .filter-label {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-right: 4px;
+        white-space: nowrap;
+      }
+      .chip {
+        padding: 7px 16px;
+        border: 1px solid var(--border);
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.25s;
+        background: transparent;
+        white-space: nowrap;
+      }
+      .chip:hover {
+        background: var(--cream);
+        color: var(--forest);
+      }
+      .chip.active {
+        background: var(--forest);
+        color: white;
+        border-color: var(--forest);
+      }
+      .filter-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .result-count {
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 1px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .sort-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sort-wrap label {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .sort-select-wrap {
+        position: relative;
+      }
+      .sort-select-wrap::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid var(--gold);
+        pointer-events: none;
+      }
+      .sort-wrap select {
+        border: 1px solid var(--border);
+        padding: 7px 28px 7px 12px;
+        font-size: 0.78rem;
+        color: var(--ink);
+        background: white;
+        outline: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0;
+      }
+
+      /* ── GRID ── */
+      .shop-grid-section {
+        padding: 50px 8% 100px;
+        background: var(--parchment);
+      }
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 3px;
+        background: var(--border);
+        max-width: var(--max-w);
+        margin: 0 auto;
+      }
+
+      /* ── CARD IMAGE TWEAKS ── */
+      .product-card[data-imgpos="left"] .card-img-wrap img {
+        object-position: left center;
+      }
+      .product-card[data-imgpos="center"] .card-img-wrap img {
+        object-position: center center;
+      }
+      .product-card[data-imgpos="right"] .card-img-wrap img {
+        object-position: right center;
+      }
+
+      .product-card[data-imgpos="center"] .card-img-wrap {
+        padding-top: 115%;
+      }
+
+      .no-results {
+        display: none;
+        text-align: center;
+        padding: 100px 20px;
+        background: var(--parchment);
+        width: 100%;
+      }
+      .no-results.show {
+        display: block;
+      }
+      .no-results h3 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 10px;
+      }
+      .no-results p {
+        color: var(--muted);
+      }
+
+      @media (max-width: 768px) {
+        .shop-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .filter-right {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+      @media (max-width: 480px) {
+        .shop-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/collections.html" />
+    <meta property="og:title" content="Shop & Collections | Aaraina Sarees" />
+    <meta property="og:description" content="Explore handwoven silk, cotton and zari sarees from Tamil Nadu, Madhya Pradesh, West Bengal and more." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shop & Collections | Aaraina Sarees" />
+    <meta name="twitter:description" content="Explore handwoven silk, cotton and zari sarees from Tamil Nadu, Madhya Pradesh, West Bengal and more." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<!-- HERO -->
+    <section class="collections-hero">
+      <div class="collections-hero-content fade-in">
+        <span class="eyebrow">The Collection</span>
+        <h1>Shop &amp; <em>Collections</em></h1>
+      </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="filter-inner">
+        <div class="filter-left">
+          <span class="filter-label">Filter</span>
+          <button class="chip active" onclick="setFilter('all', this)">
+            All
+          </button>
+          <button class="chip" onclick="setFilter('silk', this)">Silk</button>
+          <button class="chip" onclick="setFilter('cotton', this)">
+            Cotton
+          </button>
+          <button class="chip" onclick="setFilter('bridal', this)">
+            Bridal
+          </button>
+          <button class="chip" onclick="setFilter('festive', this)">
+            Festive
+          </button>
+          <button class="chip" onclick="setFilter('daily', this)">
+            Everyday
+          </button>
+        </div>
+        <div class="filter-right">
+          <span class="result-count" id="resultCount">11 pieces</span>
+          <div class="sort-wrap">
+            <label>Sort</label>
+            <div class="sort-select-wrap">
+              <select id="sortSelect" onchange="applySort()">
+                <option value="default">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name A–Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <section class="shop-grid-section">
+      <div class="shop-grid" id="shopGrid"></div>
+      <div class="no-results" id="noResults">
+        <h3>No pieces found</h3>
+        <p>Try a different filter.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <div id="footer-placeholder"></div>
+    <script>
+      const products = [
+        {
+          id: "navy-zari-silk",
+          name: "Navy Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "navy-zari-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Gold zari motifs · Deep navy · Festive",
+          tags: ["silk", "festive", "bridal"],
+        },
+        {
+          id: "teal-zari-silk",
+          name: "Teal Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "teal-zari-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Gold zari motifs · Peacock teal · Festive",
+          tags: ["silk", "festive", "bridal"],
+        },
+        {
+          id: "crimson-zari-silk",
+          name: "Crimson Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 14000,
+          image: "crimson-zari-silk.jpeg",
+          imgPos: "right",
+          badge: "Bridal",
+          badgeClass: "new",
+          desc: "Gold zari border · Deep red · Bridal",
+          tags: ["silk", "festive", "bridal"],
+        },
+        {
+          id: "forest-zari-silk",
+          name: "Forest Green Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "forest-green-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Gold zari motifs · Bottle green · Festive",
+          tags: ["silk", "festive"],
+        },
+        {
+          id: "orange-silver-silk",
+          name: "Orange Silver Zari Saree",
+          region: "Madhya Pradesh",
+          weave: "Chanderi",
+          price: 8900,
+          image: "orange-silver-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Silver zari · Burnt orange · Everyday elegance",
+          tags: ["silk", "daily", "festive"],
+        },
+        {
+          id: "mustard-silver-silk",
+          name: "Mustard Silver Silk Saree",
+          region: "Madhya Pradesh",
+          weave: "Chanderi",
+          price: 8500,
+          image: "mustard-silver-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Silver zari motifs · Golden yellow · Casual chic",
+          tags: ["silk", "daily"],
+        },
+        {
+          id: "slate-gold-silk",
+          name: "Slate Gold Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 12800,
+          image: "slate-gold-silk.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Gold zari · Gunmetal grey · Heritage motifs",
+          tags: ["silk", "festive", "bridal"],
+        },
+        {
+          id: "red-black-cotton",
+          name: "Red & Black Zari Cotton",
+          region: "West Bengal",
+          weave: "Tant",
+          price: 5200,
+          image: "red-black-cotton.jpeg",
+          imgPos: "center",
+          badge: "Ready Collection",
+          desc: "Contrast border · Copper zari · Casual festive",
+          tags: ["cotton", "daily", "festive"],
+        },
+        {
+          id: "pink-navy-cotton",
+          name: "Pink & Navy Zari Cotton",
+          region: "West Bengal",
+          weave: "Tant",
+          price: 4800,
+          image: "pink-navy-cotton.jpeg",
+          imgPos: "center",
+          badge: "Ready Collection",
+          desc: "Contrast border · Copper zari · Vibrant",
+          tags: ["cotton", "daily", "festive"],
+        },
+        {
+          id: "navy-silver-linen",
+          name: "Navy Silver Linen Saree",
+          region: "Bihar",
+          weave: "Bhagalpuri",
+          price: 6200,
+          image: "navy-silver-linen.jpeg",
+          imgPos: "left",
+          badge: "Handloom",
+          desc: "Silver zari · Navy linen · Everyday luxury",
+          tags: ["silk", "daily"],
+        },
+        {
+          id: "purple-mustard-cotton",
+          name: "Purple & Mustard Silk Cotton",
+          region: "Tamil Nadu",
+          weave: "Chettinad",
+          price: 5900,
+          image: "purple-mustard-cotton.jpeg",
+          imgPos: "center",
+          badge: "Handloom",
+          desc: "Contrast border · Copper motifs · Festive",
+          tags: ["cotton", "festive"],
+        },
+      ];
+
+      let activeFilter = "all";
+      let activeSort = "default";
+
+      function renderGrid() {
+        const grid = document.getElementById("shopGrid");
+        grid.innerHTML = "";
+
+        let list = [...products];
+        if (activeFilter !== "all")
+          list = list.filter((p) => p.tags.includes(activeFilter));
+        if (activeSort === "price-asc") list.sort((a, b) => a.price - b.price);
+        if (activeSort === "price-desc") list.sort((a, b) => b.price - a.price);
+        if (activeSort === "name-asc")
+          list.sort((a, b) => a.name.localeCompare(b.name));
+
+        const count = list.length;
+        document.getElementById("resultCount").textContent =
+          count + (count === 1 ? " piece" : " pieces");
+
+        const noRes = document.getElementById("noResults");
+        if (count === 0) {
+          noRes.classList.add("show");
+          return;
+        }
+        noRes.classList.remove("show");
+
+        list.forEach((p) => {
+          const inWl = Store.isInWishlist(p.id);
+          const inCart = Store.isInCart(p.id);
+          const card = document.createElement("a");
+          card.href = `product.html?id=${p.id}`;
+          card.className = "product-card";
+          card.dataset.productId = p.id;
+          card.dataset.imgpos = p.imgPos;
+
+          card.innerHTML = `
+            <div class="card-img-wrap">
+              <span class="card-badge ${p.badgeClass || ""}">${p.badge}</span>
+              <button class="card-wishlist ${inWl ? "liked" : ""}"
+                onclick="handleWish(event,this,'${p.id}','${p.name.replace(/'/g, "\\'")}','${p.region}',${p.price},'${p.image}')">
+                ${inWl ? "♥" : "♡"}
+              </button>
+              <img src="${p.image}" alt="${p.name}" loading="lazy" />
+              <div class="card-overlay-btn"
+                onclick="handleCart(event,'${p.id}','${p.name.replace(/'/g, "\\'")}','${p.region}',${p.price},'${p.image}')">
+                ${inCart ? "✓ In Cart" : "Add to Cart"}
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">${p.region} · ${p.weave}</span>
+              <span class="card-name">${p.name}</span>
+              <span class="card-desc">${p.desc}</span>
+              <div class="card-footer">
+                <span class="card-price"><span class="currency">₹</span>${p.price.toLocaleString("en-IN")}</span>
+                <span class="card-weave-tag">${p.weave}</span>
+              </div>
+            </div>`;
+          grid.appendChild(card);
+        });
+      }
+
+      function setFilter(filter, btn) {
+        activeFilter = filter;
+        document
+          .querySelectorAll(".chip")
+          .forEach((c) => c.classList.remove("active"));
+        btn.classList.add("active");
+        renderGrid();
+      }
+
+      function filterTag(tag, e) {
+        e.preventDefault();
+        activeFilter = tag;
+        document.querySelectorAll(".chip").forEach((c) => {
+          const t = c.textContent.trim().toLowerCase();
+          c.classList.toggle(
+            "active",
+            t === tag || (tag === "all" && t === "all"),
+          );
+        });
+        document.getElementById("searchOverlay").classList.remove("open");
+        renderGrid();
+      }
+
+      function applySort() {
+        activeSort = document.getElementById("sortSelect").value;
+        renderGrid();
+      }
+
+      function handleWish(e, btn, id, name, region, price, image) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (Store.isInWishlist(id)) {
+          Store.removeFromWishlist(id);
+          btn.textContent = "♡";
+          btn.classList.remove("liked");
+          Store.showToast("Removed from wishlist");
+        } else {
+          Store.addToWishlist({ id, name, region, price, image });
+          btn.textContent = "♥";
+          btn.classList.add("liked");
+        }
+      }
+
+      function handleCart(e, id, name, region, price, image) {
+        e.preventDefault();
+        e.stopPropagation();
+        Store.addToCart({
+          id,
+          name,
+          region,
+          price,
+          image,
+          variant: "Standard",
+        });
+        const o = e.target;
+        o.textContent = "✓ Added";
+        setTimeout(() => (o.textContent = "Add to Cart"), 2000);
+      }
+
+      // Live search — filters grid as user types
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        if (!q) {
+          renderGrid();
+          return;
+        }
+        const grid = document.getElementById("shopGrid");
+        grid.innerHTML = "";
+        const matches = products.filter((p) =>
+          [p.name, p.region, p.weave, p.desc, ...p.tags]
+            .join(" ")
+            .toLowerCase()
+            .includes(q),
+        );
+        document.getElementById("resultCount").textContent =
+          matches.length + (matches.length === 1 ? " piece" : " pieces");
+        const noRes = document.getElementById("noResults");
+        if (matches.length === 0) {
+          noRes.classList.add("show");
+          return;
+        }
+        noRes.classList.remove("show");
+        matches.forEach((p) => {
+          const inWl = Store.isInWishlist(p.id);
+          const inCart = Store.isInCart(p.id);
+          const card = document.createElement("a");
+          card.href = `product.html?id=${p.id}`;
+          card.className = "product-card";
+          card.dataset.productId = p.id;
+          card.dataset.imgpos = p.imgPos;
+          card.innerHTML = `
+            <div class="card-img-wrap">
+              <span class="card-badge ${p.badgeClass || ""}">${p.badge}</span>
+              <button class="card-wishlist ${inWl ? "liked" : ""}"
+                onclick="handleWish(event,this,'${p.id}','${p.name.replace(/'/g, "\\'")}','${p.region}',${p.price},'${p.image}')">
+                ${inWl ? "♥" : "♡"}
+              </button>
+              <img src="${p.image}" alt="${p.name}" loading="lazy" />
+              <div class="card-overlay-btn"
+                onclick="handleCart(event,'${p.id}','${p.name.replace(/'/g, "\\'")}','${p.region}',${p.price},'${p.image}')">
+                ${inCart ? "✓ In Cart" : "Add to Cart"}
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">${p.region} · ${p.weave}</span>
+              <span class="card-name">${p.name}</span>
+              <span class="card-desc">${p.desc}</span>
+              <div class="card-footer">
+                <span class="card-price"><span class="currency">₹</span>${p.price.toLocaleString("en-IN")}</span>
+                <span class="card-weave-tag">${p.weave}</span>
+              </div>
+            </div>`;
+          grid.appendChild(card);
+        });
+      });
+
+      const obs = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-in").forEach((f) => obs.observe(f));
+
+      // Trigger hero fade-in immediately
+      const hero = document.querySelector(".hero");
+      if (hero) {
+        hero.classList.add("visible");
+      }
+
+      // ✅ RENDER PRODUCTS ON PAGE LOAD
+      renderGrid();
+    </script>
+  
+    <script src="products.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

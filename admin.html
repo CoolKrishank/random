@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: var(--parchment);
+      }
+      .admin-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: var(--forest);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        z-index: 1000;
+      }
+      .admin-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .admin-nav-brand img {
+        height: 32px;
+        filter: brightness(0) invert(1);
+      }
+      .admin-nav-brand span {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .admin-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .admin-user {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+      }
+      .admin-signout {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        background: none;
+        border: 1px solid rgba(198, 167, 94, 0.4);
+        padding: 6px 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .admin-signout:hover {
+        background: var(--gold);
+        color: var(--forest);
+      }
+      .admin-page {
+        padding: 80px 32px 60px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .admin-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+      .admin-title::after {
+        display: none;
+      }
+      .admin-subtitle {
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        display: block;
+      }
+      .admin-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
+        background: var(--border);
+        margin-bottom: 40px;
+      }
+      .stat-card {
+        background: white;
+        padding: 28px 24px;
+      }
+      .stat-label {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 10px;
+      }
+      .stat-value {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        color: var(--forest);
+      }
+      .stat-value.gold {
+        color: var(--gold);
+      }
+      .admin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3px;
+        background: var(--border);
+      }
+      .admin-panel {
+        background: white;
+        padding: 32px;
+      }
+      .panel-title {
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--forest);
+        margin-bottom: 24px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .product-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .product-row:last-child {
+        border-bottom: none;
+      }
+      .product-row img {
+        width: 50px;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        background: var(--cream);
+        flex-shrink: 0;
+      }
+      .product-row-info {
+        flex: 1;
+      }
+      .product-row-name {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        color: var(--forest);
+        display: block;
+      }
+      .product-row-meta {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .product-row-price {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--forest);
+        white-space: nowrap;
+      }
+      .quick-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .quick-link:last-child {
+        border-bottom: none;
+      }
+      .quick-link:hover {
+        background: var(--parchment);
+        margin: 0 -32px;
+        padding: 14px 32px;
+      }
+      .quick-link-label {
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--forest);
+      }
+      .quick-link-arrow {
+        color: var(--gold);
+        font-size: 1rem;
+      }
+      .notice-box {
+        background: var(--cream);
+        border-left: 3px solid var(--gold);
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+        color: var(--forest);
+        line-height: 1.6;
+      }
+      @media (max-width: 900px) {
+        .admin-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .admin-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .admin-stats {
+          grid-template-columns: 1fr 1fr;
+        }
+        .admin-page {
+          padding: 76px 16px 40px;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/admin.html" />
+    <meta property="og:title" content="Admin | Aaraina Sarees" />
+    <meta property="og:description" content="Aaraina store administration panel." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Admin | Aaraina Sarees" />
+    <meta name="twitter:description" content="Aaraina store administration panel." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+    <nav class="admin-nav">
+      <div class="admin-nav-brand">
+        <img src="AARAINA.png" alt="Aaraina" />
+        <span>Admin Panel</span>
+      </div>
+      <div class="admin-nav-right">
+        <span class="admin-user" id="adminUser"></span>
+        <button class="admin-signout" onclick="signOut()">Sign Out</button>
+      </div>
+    </nav>
+
+    <div class="admin-page">
+      <h1 class="admin-title">Dashboard</h1>
+      <span class="admin-subtitle">Aaraina Sarees — Store Overview</span>
+
+      <div class="admin-stats">
+        <div class="stat-card">
+          <span class="stat-label">Products Listed</span>
+          <span class="stat-value" id="statProducts">11</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Wishlist Saves</span>
+          <span class="stat-value gold" id="statWishlist">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Items in Carts</span>
+          <span class="stat-value" id="statCart">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Cart Value</span>
+          <span class="stat-value gold" id="statCartValue">—</span>
+        </div>
+      </div>
+
+      <div class="admin-grid">
+        <!-- Products snapshot -->
+        <div class="admin-panel">
+          <div class="panel-title">Product Catalogue</div>
+          <div class="notice-box">
+            Products are currently managed directly in
+            <strong>collections.html</strong> inside the
+            <code>products</code> array. A full product editor is coming in the
+            next update.
+          </div>
+          <div id="productList"></div>
+          <a
+            href="collections.html"
+            style="
+              display: block;
+              margin-top: 16px;
+              font-family: var(--font-label);
+              font-size: 0.62rem;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              color: var(--gold);
+            "
+            >View Live Collections &rarr;</a
+          >
+        </div>
+
+        <!-- Quick links -->
+        <div class="admin-panel">
+          <div class="panel-title">Quick Links</div>
+          <a href="collections.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">Shop &amp; Collections</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+          <a href="cart.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">Cart Page</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+          <a href="wishlist.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">Wishlist Page</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+          <a href="checkout.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">Checkout Page</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+          <a href="contact.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">Contact Page</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+          <a href="about.html" class="quick-link" target="_blank">
+            <span class="quick-link-label">About Page</span>
+            <span class="quick-link-arrow">&#8599;</span>
+          </a>
+
+          <div class="panel-title" style="margin-top: 28px">Settings</div>
+          <div class="notice-box">
+            To update your WhatsApp number or admin emails, edit the
+            <code>WA_NUMBER</code> and <code>ADMIN_EMAILS</code> variables in
+            <strong>login.html</strong> and <strong>checkout.html</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut as fbSignOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+      // Same config as login.html
+      const firebaseConfig = {
+        apiKey: "AIzaSyBem7oxCbDk_IhkERg0gbGC6quP3Q5szXA",
+        authDomain: "aarainasarees.firebaseapp.com",
+        projectId: "aarainasarees",
+        storageBucket: "aarainasarees.firebasestorage.app",
+        messagingSenderId: "441710799102",
+        appId: "1:441710799102:web:b0f554795a31b9b7529daf",
+      };
+
+      const ADMIN_EMAILS = ["admin@aaraina.com", "info@aaraina.com"];
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      onAuthStateChanged(auth, function (user) {
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+        if (!ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+          window.location.href = "account.html";
+          return;
+        }
+        document.getElementById("adminUser").textContent = user.email;
+      });
+
+      window.signOut = async function () {
+        await fbSignOut(auth);
+        window.location.href = "login.html";
+      };
+    </script>
+    <script>
+      // Stats from localStorage
+      var cart = Store.getCart();
+      var wishlist = Store.getWishlist();
+      document.getElementById("statWishlist").textContent = wishlist.length;
+      document.getElementById("statCart").textContent = Store.getCartCount();
+      document.getElementById("statCartValue").textContent = Store.formatINR(
+        Store.getCartTotal(),
+      );
+
+      // Product list snapshot (matches collections.html data)
+      var products = [
+        {
+          id: "navy-zari-silk",
+          name: "Navy Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "navy-zari-silk.jpeg",
+        },
+        {
+          id: "teal-zari-silk",
+          name: "Teal Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "teal-zari-silk.jpeg",
+        },
+        {
+          id: "crimson-zari-silk",
+          name: "Crimson Zari Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 14000,
+          image: "crimson-zari-silk.jpeg",
+        },
+        {
+          id: "forest-zari-silk",
+          name: "Forest Green Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 13500,
+          image: "forest-green-silk.jpeg",
+        },
+        {
+          id: "orange-silver-silk",
+          name: "Orange Silver Zari Saree",
+          region: "Madhya Pradesh",
+          weave: "Chanderi",
+          price: 8900,
+          image: "orange-silver-silk.jpeg",
+        },
+        {
+          id: "mustard-silver-silk",
+          name: "Mustard Silver Silk Saree",
+          region: "Madhya Pradesh",
+          weave: "Chanderi",
+          price: 8500,
+          image: "mustard-silver-silk.jpeg",
+        },
+        {
+          id: "slate-gold-silk",
+          name: "Slate Gold Silk Saree",
+          region: "Tamil Nadu",
+          weave: "Kanjivaram",
+          price: 12800,
+          image: "slate-gold-silk.jpeg",
+        },
+        {
+          id: "red-black-cotton",
+          name: "Red & Black Zari Cotton",
+          region: "West Bengal",
+          weave: "Tant",
+          price: 5200,
+          image: "red-black-cotton.jpeg",
+        },
+        {
+          id: "pink-navy-cotton",
+          name: "Pink & Navy Zari Cotton",
+          region: "West Bengal",
+          weave: "Tant",
+          price: 4800,
+          image: "pink-navy-cotton.jpeg",
+        },
+        {
+          id: "navy-silver-linen",
+          name: "Navy Silver Linen Saree",
+          region: "Bihar",
+          weave: "Bhagalpuri",
+          price: 6200,
+          image: "navy-silver-linen.jpeg",
+        },
+        {
+          id: "purple-mustard-cotton",
+          name: "Purple & Mustard Silk Cotton",
+          region: "Tamil Nadu",
+          weave: "Chettinad",
+          price: 5900,
+          image: "purple-mustard-cotton.jpeg",
+        },
+      ];
+
+      var listEl = document.getElementById("productList");
+      products.slice(0, 6).forEach(function (p) {
+        var row = document.createElement("div");
+        row.className = "product-row";
+        row.innerHTML =
+          "<img src='" +
+          p.image +
+          "' alt='" +
+          p.name +
+          "' />" +
+          "<div class='product-row-info'>" +
+          "<span class='product-row-name'>" +
+          p.name +
+          "</span>" +
+          "<span class='product-row-meta'>" +
+          p.region +
+          " &middot; " +
+          p.weave +
+          "</span>" +
+          "</div>" +
+          "<span class='product-row-price'>" +
+          Store.formatINR(p.price) +
+          "</span>";
+        listEl.appendChild(row);
+      });
+      if (products.length > 6) {
+        var more = document.createElement("p");
+        more.style.cssText =
+          "font-size:0.78rem;color:var(--muted);margin-top:12px;";
+        more.textContent = "+ " + (products.length - 6) + " more products";
+        listEl.appendChild(more);
+      }
+    </script>
+  
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+  </body>
+</html>

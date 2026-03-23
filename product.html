@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .quantity-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 28px 0;
+      }
+      .quantity-control {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        width: fit-content;
+      }
+      .quantity-btn {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--forest);
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .quantity-btn:hover {
+        background: var(--cream);
+      }
+      .quantity-input {
+        width: 50px;
+        text-align: center;
+        border: none;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        font-size: 1rem;
+        padding: 0;
+        height: 36px;
+        color: var(--forest);
+        font-family: var(--font-body);
+      }
+      .quantity-input:focus {
+        outline: none;
+      }
+
+      .product-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        margin: 28px 0;
+      }
+      .add-to-wishlist {
+        padding: 17px 24px;
+        background: transparent;
+        color: var(--forest);
+        border: 1px solid var(--forest);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .add-to-wishlist:hover {
+        background: var(--cream);
+        border-color: var(--gold);
+      }
+      .add-to-wishlist.liked {
+        color: var(--gold);
+        border-color: var(--gold);
+        background: rgba(198, 167, 94, 0.08);
+      }
+
+      /* ── COLOUR SWATCHES ── */
+      .color-options {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .color-swatch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+      .color-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        transition: all 0.25s;
+        position: relative;
+      }
+      .color-dot.active::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1.5px solid var(--gold);
+      }
+      .color-dot:hover {
+        transform: scale(1.1);
+      }
+      .color-swatch-label {
+        font-family: var(--font-label);
+        font-size: 0.55rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.2s;
+      }
+      .color-swatch.active .color-swatch-label {
+        color: var(--forest);
+        font-weight: 500;
+      }
+
+      /* ── REVIEWS ── */
+      .reviews-section {
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+      }
+      .reviews-header h3 {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        color: var(--forest);
+        margin-bottom: 30px;
+      }
+      .review-item {
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+      .review-author {
+        font-weight: 600;
+        color: var(--forest);
+      }
+      .review-date {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .review-rating {
+        color: var(--gold);
+        font-size: 0.95rem;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+      }
+      .review-text {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 768px) {
+        .product-actions {
+          flex-direction: column;
+        }
+        .add-to-wishlist {
+          width: 100%;
+          padding: 17px;
+        }
+      }
+    </style>
+    <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/product.html" />
+    <meta property="og:title" content="Handwoven Saree | Aaraina Sarees" />
+    <meta
+      property="og:description"
+      content="Beautifully crafted handloom sarees from India's finest weaving communities. Ethically sourced at Aaraina."
+    />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Handwoven Saree | Aaraina Sarees" />
+    <meta
+      name="twitter:description"
+      content="Beautifully crafted handloom sarees from India's finest weaving communities. Ethically sourced at Aaraina."
+    />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+    <div id="nav-placeholder"></div>
+
+    <div class="breadcrumb">
+      <div class="breadcrumb-inner">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <a href="collections.html">Collections</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumbName">Product</span>
+      </div>
+    </div>
+
+    <section class="product-section">
+      <div class="product-layout">
+        <div class="product-gallery fade-in">
+          <div class="main-image">
+            <div class="image-badge" id="galleryBadge">Handloom</div>
+            <img id="mainImgSrc" src="" alt="Product" />
+          </div>
+          <div class="thumb-row" id="thumbRow"></div>
+        </div>
+
+        <div class="product-info fade-in">
+          <span class="product-origin" id="productOrigin"></span>
+          <h1 id="productName"></h1>
+          <span class="product-subtitle" id="productSubtitle"></span>
+          <div class="product-rating">
+            <span class="stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span>
+            <span class="rating-text">4.9 &middot; 38 reviews</span>
+          </div>
+          <span class="product-price"
+            ><span class="currency">&#x20B9;</span
+            ><span id="productPrice"></span
+          ></span>
+          <span class="price-note"
+            >Inclusive of all taxes &middot; Free shipping across India</span
+          >
+          <div class="divider-line"></div>
+
+          <span class="option-label">Colour Variants</span>
+          <div class="color-options" id="colorOptions"></div>
+
+          <div class="quantity-section">
+            <span class="option-label">Quantity</span>
+            <div class="quantity-control">
+              <button class="quantity-btn" id="decreaseQty">&#x2212;</button>
+              <input
+                type="number"
+                class="quantity-input"
+                id="quantity"
+                value="1"
+                min="1"
+              />
+              <button class="quantity-btn" id="increaseQty">+</button>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <button
+              class="add-to-cart"
+              id="addToCartBtn"
+              onclick="handleAddToCart(this)"
+            >
+              Add to Cart
+            </button>
+            <button
+              class="add-to-wishlist"
+              id="wishlistBtn"
+              onclick="handleWishlist(this)"
+            >
+              &#x2661;
+            </button>
+          </div>
+
+          <a href="contact.html" class="enquire-btn"
+            >Enquire About This Piece</a
+          >
+
+          <div class="trust-badges">
+            <div class="badge">
+              <span class="badge-icon">&#x1F9F5;</span><span>Handwoven</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">&#x1F69A;</span
+              ><span>Free Shipping</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">&#x21A9;</span><span>7-Day Returns</span>
+            </div>
+          </div>
+
+          <div class="divider-line"></div>
+
+          <div class="product-details">
+            <div class="accordion-item open">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                Description <span class="accordion-icon">+</span>
+              </div>
+              <div class="accordion-body"><p id="productDesc"></p></div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                Specifications <span class="accordion-icon">+</span>
+              </div>
+              <div class="accordion-body">
+                <table class="spec-table" id="specTable"></table>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                Care Instructions <span class="accordion-icon">+</span>
+              </div>
+              <div class="accordion-body">
+                <ul>
+                  <li>Dry clean for best results</li>
+                  <li>
+                    If hand-washing, use cold water with mild liquid detergent
+                  </li>
+                  <li>Do not wring &mdash; gently press and dry in shade</li>
+                  <li>Iron on reverse side with low heat</li>
+                  <li>Store folded in muslin cloth to prevent snags</li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                Shipping &amp; Returns <span class="accordion-icon">+</span>
+              </div>
+              <div class="accordion-body">
+                <p>
+                  Free shipping across India. Delivered in 5&ndash;7 business
+                  days. Returns accepted within 7 days of delivery for
+                  ready-to-ship items in original condition.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-section">
+      <div class="reviews-section" style="max-width: 1380px; margin: 0 auto">
+        <div class="reviews-header"><h3>Customer Reviews</h3></div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Priya Sharma</div>
+              <div class="review-rating">
+                &#x2605;&#x2605;&#x2605;&#x2605;&#x2605;
+              </div>
+            </div>
+            <div class="review-date">2 weeks ago</div>
+          </div>
+          <div class="review-text">
+            Absolutely stunning saree! The zari work is exquisite and the fabric
+            quality is exceptional. Perfect for festive occasions. Highly
+            recommend!
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Anaya Gupta</div>
+              <div class="review-rating">
+                &#x2605;&#x2605;&#x2605;&#x2605;&#x2605;
+              </div>
+            </div>
+            <div class="review-date">1 month ago</div>
+          </div>
+          <div class="review-text">
+            Perfect for my brother's wedding. The colors are vibrant and the
+            drape is elegant. Worth every penny!
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Neha Patel</div>
+              <div class="review-rating">&#x2605;&#x2605;&#x2605;&#x2605;</div>
+            </div>
+            <div class="review-date">1 month ago</div>
+          </div>
+          <div class="review-text">
+            Beautiful saree, very well-made. The handloom craftsmanship is
+            evident. Delivery was quick and packaging was excellent.
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Divya Iyer</div>
+              <div class="review-rating">
+                &#x2605;&#x2605;&#x2605;&#x2605;&#x2605;
+              </div>
+            </div>
+            <div class="review-date">2 months ago</div>
+          </div>
+          <div class="review-text">
+            I'm a saree collector and this piece is a gem! The subtle lustre and
+            fine texture are exactly what I was looking for.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ornament-divider"><div class="ornament-diamond"></div></div>
+
+    <section class="related-section fade-in">
+      <span class="label">You May Also Like</span>
+      <h2>More From Our Collection</h2>
+      <div class="related-grid" id="relatedGrid"></div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+    <script>
+      // ── PRODUCT CATALOGUE ─────────────────────────────────────────────────
+      const PRODUCTS = {
+        "navy-zari-silk": {
+          name: "Navy Zari Silk Saree",
+          origin: "Tamil Nadu · Kanjivaram",
+          subtitle: "Handwoven with traditional gold zari work",
+          price: 13500,
+          badge: "Handloom",
+          desc: "A stunning navy silk saree adorned with intricate gold zari work. The rich indigo hue is complemented by traditional weaving techniques, making this saree a timeless classic. Perfect for festive occasions and celebrations.",
+          specs: {
+            Fabric: "Pure Silk",
+            "Weave Type": "Kanjivaram",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 400g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Dry clean recommended",
+          },
+          variants: [
+            { label: "Navy", color: "#001a4d", image: "navy-zari-silk.jpeg" },
+            { label: "Teal", color: "#1a4d4d", image: "teal-zari-silk.jpeg" },
+            {
+              label: "Crimson",
+              color: "#8b0000",
+              image: "crimson-zari-silk.jpeg",
+            },
+            {
+              label: "Forest",
+              color: "#1b4d1b",
+              image: "forest-green-silk.jpeg",
+            },
+            { label: "Slate", color: "#4a4e5e", image: "slate-gold-silk.jpeg" },
+          ],
+          related: ["teal-zari-silk", "crimson-zari-silk", "forest-zari-silk"],
+        },
+        "teal-zari-silk": {
+          name: "Teal Zari Silk Saree",
+          origin: "Tamil Nadu · Kanjivaram",
+          subtitle: "Handwoven with traditional gold zari work",
+          price: 13500,
+          badge: "Handloom",
+          desc: "A lustrous teal silk saree with intricate gold zari work and peacock-inspired motifs. The deep jewel tone is offset by a rich golden border, ideal for weddings and festive occasions.",
+          specs: {
+            Fabric: "Pure Silk",
+            "Weave Type": "Kanjivaram",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 400g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Dry clean recommended",
+          },
+          variants: [
+            { label: "Teal", color: "#1a4d4d", image: "teal-zari-silk.jpeg" },
+            { label: "Navy", color: "#001a4d", image: "navy-zari-silk.jpeg" },
+            {
+              label: "Crimson",
+              color: "#8b0000",
+              image: "crimson-zari-silk.jpeg",
+            },
+            {
+              label: "Forest",
+              color: "#1b4d1b",
+              image: "forest-green-silk.jpeg",
+            },
+          ],
+          related: ["navy-zari-silk", "crimson-zari-silk", "slate-gold-silk"],
+        },
+        "crimson-zari-silk": {
+          name: "Crimson Zari Silk Saree",
+          origin: "Tamil Nadu · Kanjivaram",
+          subtitle: "Bridal red with deep gold zari border",
+          price: 14000,
+          badge: "Bridal",
+          desc: "A magnificent crimson bridal saree with a bold gold zari border and intricate temple motifs. The deep red hue carries centuries of bridal tradition, making it the perfect choice for weddings.",
+          specs: {
+            Fabric: "Pure Silk",
+            "Weave Type": "Kanjivaram",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 420g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Dry clean recommended",
+          },
+          variants: [
+            {
+              label: "Crimson",
+              color: "#8b0000",
+              image: "crimson-zari-silk.jpeg",
+            },
+            { label: "Navy", color: "#001a4d", image: "navy-zari-silk.jpeg" },
+            { label: "Teal", color: "#1a4d4d", image: "teal-zari-silk.jpeg" },
+            {
+              label: "Forest",
+              color: "#1b4d1b",
+              image: "forest-green-silk.jpeg",
+            },
+          ],
+          related: ["navy-zari-silk", "teal-zari-silk", "forest-zari-silk"],
+        },
+        "forest-zari-silk": {
+          name: "Forest Green Silk Saree",
+          origin: "Tamil Nadu · Kanjivaram",
+          subtitle: "Handwoven with traditional gold zari work",
+          price: 13500,
+          badge: "Handloom",
+          desc: "A rich bottle-green silk saree with golden zari motifs and a classic temple border. The deep forest hue exudes quiet opulence and pairs beautifully with antique gold jewellery.",
+          specs: {
+            Fabric: "Pure Silk",
+            "Weave Type": "Kanjivaram",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 400g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Dry clean recommended",
+          },
+          variants: [
+            {
+              label: "Forest",
+              color: "#1b4d1b",
+              image: "forest-green-silk.jpeg",
+            },
+            { label: "Navy", color: "#001a4d", image: "navy-zari-silk.jpeg" },
+            {
+              label: "Crimson",
+              color: "#8b0000",
+              image: "crimson-zari-silk.jpeg",
+            },
+            { label: "Teal", color: "#1a4d4d", image: "teal-zari-silk.jpeg" },
+          ],
+          related: ["navy-zari-silk", "crimson-zari-silk", "slate-gold-silk"],
+        },
+        "slate-gold-silk": {
+          name: "Slate Gold Silk Saree",
+          origin: "Tamil Nadu · Kanjivaram",
+          subtitle: "Heritage motifs in gunmetal and gold",
+          price: 12800,
+          badge: "Handloom",
+          desc: "A sophisticated gunmetal-grey silk saree with golden zari weaves and heritage temple motifs. Its understated elegance makes it equally suited for festive events and formal occasions.",
+          specs: {
+            Fabric: "Pure Silk",
+            "Weave Type": "Kanjivaram",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 390g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Dry clean recommended",
+          },
+          variants: [
+            { label: "Slate", color: "#4a4e5e", image: "slate-gold-silk.jpeg" },
+            { label: "Navy", color: "#001a4d", image: "navy-zari-silk.jpeg" },
+            { label: "Teal", color: "#1a4d4d", image: "teal-zari-silk.jpeg" },
+          ],
+          related: ["navy-zari-silk", "teal-zari-silk", "crimson-zari-silk"],
+        },
+        "orange-silver-silk": {
+          name: "Orange Silver Zari Saree",
+          origin: "Madhya Pradesh · Chanderi",
+          subtitle: "Silver zari on warm burnt orange",
+          price: 8900,
+          badge: "Handloom",
+          desc: "A vibrant burnt-orange Chanderi saree with delicate silver zari motifs. Light as a whisper and rich in character — perfect for everyday elegance and informal festivities.",
+          specs: {
+            Fabric: "Chanderi Silk",
+            "Weave Type": "Chanderi",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 220g",
+            Origin: "Madhya Pradesh",
+            "Wash Care": "Gentle hand wash / Dry clean",
+          },
+          variants: [
+            {
+              label: "Orange",
+              color: "#c2571a",
+              image: "orange-silver-silk.jpeg",
+            },
+            {
+              label: "Mustard",
+              color: "#c49a1a",
+              image: "mustard-silver-silk.jpeg",
+            },
+          ],
+          related: [
+            "mustard-silver-silk",
+            "red-black-cotton",
+            "purple-mustard-cotton",
+          ],
+        },
+        "mustard-silver-silk": {
+          name: "Mustard Silver Silk Saree",
+          origin: "Madhya Pradesh · Chanderi",
+          subtitle: "Silver zari motifs on golden mustard",
+          price: 8500,
+          badge: "Handloom",
+          desc: "A cheerful mustard Chanderi saree with fine silver zari motifs. Lightweight and breathable, it transitions effortlessly from a casual afternoon to an evening gathering.",
+          specs: {
+            Fabric: "Chanderi Silk",
+            "Weave Type": "Chanderi",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 210g",
+            Origin: "Madhya Pradesh",
+            "Wash Care": "Gentle hand wash / Dry clean",
+          },
+          variants: [
+            {
+              label: "Mustard",
+              color: "#c49a1a",
+              image: "mustard-silver-silk.jpeg",
+            },
+            {
+              label: "Orange",
+              color: "#c2571a",
+              image: "orange-silver-silk.jpeg",
+            },
+          ],
+          related: [
+            "orange-silver-silk",
+            "red-black-cotton",
+            "navy-silver-linen",
+          ],
+        },
+        "red-black-cotton": {
+          name: "Red & Black Zari Cotton",
+          origin: "West Bengal · Tant",
+          subtitle: "Contrast border with copper zari",
+          price: 5200,
+          badge: "Ready Collection",
+          desc: "A bold red and black Tant cotton saree with a striking copper zari border. Crisp, comfortable, and effortlessly festive — a wardrobe staple for the modern woman.",
+          specs: {
+            Fabric: "Cotton",
+            "Weave Type": "Tant",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 320g",
+            Origin: "West Bengal",
+            "Wash Care": "Hand wash in cold water",
+          },
+          variants: [
+            {
+              label: "Red/Black",
+              color: "#8b0000",
+              image: "red-black-cotton.jpeg",
+            },
+            {
+              label: "Pink/Navy",
+              color: "#c0597a",
+              image: "pink-navy-cotton.jpeg",
+            },
+          ],
+          related: [
+            "pink-navy-cotton",
+            "purple-mustard-cotton",
+            "mustard-silver-silk",
+          ],
+        },
+        "pink-navy-cotton": {
+          name: "Pink & Navy Zari Cotton",
+          origin: "West Bengal · Tant",
+          subtitle: "Vibrant contrast with copper zari border",
+          price: 4800,
+          badge: "Ready Collection",
+          desc: "A vibrant pink and navy Tant cotton saree with a copper zari border. Lightweight and easy to drape, it brings a pop of colour to any occasion without compromising comfort.",
+          specs: {
+            Fabric: "Cotton",
+            "Weave Type": "Tant",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 310g",
+            Origin: "West Bengal",
+            "Wash Care": "Hand wash in cold water",
+          },
+          variants: [
+            {
+              label: "Pink/Navy",
+              color: "#c0597a",
+              image: "pink-navy-cotton.jpeg",
+            },
+            {
+              label: "Red/Black",
+              color: "#8b0000",
+              image: "red-black-cotton.jpeg",
+            },
+          ],
+          related: [
+            "red-black-cotton",
+            "purple-mustard-cotton",
+            "navy-silver-linen",
+          ],
+        },
+        "navy-silver-linen": {
+          name: "Navy Silver Linen Saree",
+          origin: "Bihar · Bhagalpuri",
+          subtitle: "Silver zari on refined navy linen",
+          price: 6200,
+          badge: "Handloom",
+          desc: "A refined navy linen saree with a subtle silver zari border. Bhagalpuri linen is prized for its natural sheen and cool drape — ideal for everyday luxury.",
+          specs: {
+            Fabric: "Bhagalpuri Linen",
+            "Weave Type": "Bhagalpuri",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 280g",
+            Origin: "Bihar",
+            "Wash Care": "Gentle hand wash",
+          },
+          variants: [
+            {
+              label: "Navy",
+              color: "#1a2a4d",
+              image: "navy-silver-linen.jpeg",
+            },
+          ],
+          related: [
+            "mustard-silver-silk",
+            "orange-silver-silk",
+            "purple-mustard-cotton",
+          ],
+        },
+        "purple-mustard-cotton": {
+          name: "Purple & Mustard Silk Cotton",
+          origin: "Tamil Nadu · Chettinad",
+          subtitle: "Bold contrast with copper motifs",
+          price: 5900,
+          badge: "Handloom",
+          desc: "A striking purple and mustard Chettinad silk-cotton saree with copper-toned motifs and a bold contrasting border. Traditional craftsmanship meets modern colour confidence.",
+          specs: {
+            Fabric: "Silk Cotton",
+            "Weave Type": "Chettinad",
+            Length: "5.5 metres",
+            "Blouse Piece": "0.8 metre included",
+            Weight: "Approx. 350g",
+            Origin: "Tamil Nadu",
+            "Wash Care": "Gentle hand wash",
+          },
+          variants: [
+            {
+              label: "Purple",
+              color: "#5c2d7e",
+              image: "purple-mustard-cotton.jpeg",
+            },
+          ],
+          related: [
+            "red-black-cotton",
+            "pink-navy-cotton",
+            "navy-silver-linen",
+          ],
+        },
+      };
+
+      let currentProductId = "navy-zari-silk";
+      let currentVariantIndex = 0;
+
+      // ── LOAD PRODUCT ───────────────────────────────────────────────────────
+      function loadProduct(id) {
+        const p = PRODUCTS[id];
+        if (!p) {
+          window.location.href = "collections.html";
+          return;
+        }
+        currentProductId = id;
+        currentVariantIndex = 0;
+
+        document.title = p.name + " | Aaraina";
+        document.getElementById("breadcrumbName").textContent = p.name;
+        document.getElementById("productOrigin").textContent = p.origin;
+        document.getElementById("galleryBadge").textContent = p.badge;
+        document.getElementById("productSubtitle").textContent = p.subtitle;
+        document.getElementById("productPrice").textContent =
+          p.price.toLocaleString("en-IN");
+        document.getElementById("productDesc").textContent = p.desc;
+
+        // Product name — line-break before "Saree" if long enough
+        const nameParts = p.name.split(" Saree");
+        document.getElementById("productName").innerHTML =
+          nameParts.length > 1
+            ? nameParts[0] + "<br>Saree" + (nameParts[1] || "")
+            : p.name;
+
+        // Specs
+        document.getElementById("specTable").innerHTML = Object.entries(p.specs)
+          .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`)
+          .join("");
+
+        // Gallery
+        setMainImage(p.variants[0].image, false);
+        buildThumbs(p.variants);
+        buildColourSwatches(p.variants);
+        buildRelated(p.related, id);
+
+        // Wishlist state
+        const wBtn = document.getElementById("wishlistBtn");
+        if (Store.isInWishlist(id)) {
+          wBtn.textContent = "\u2665";
+          wBtn.classList.add("liked");
+        } else {
+          wBtn.textContent = "\u2661";
+          wBtn.classList.remove("liked");
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // ── GALLERY ────────────────────────────────────────────────────────────
+      function setMainImage(src, animate) {
+        const el = document.getElementById("mainImgSrc");
+        if (animate === false) {
+          el.src = src;
+          return;
+        }
+        el.style.opacity = "0";
+        el.style.transition = "opacity 0.2s ease";
+        setTimeout(() => {
+          el.src = src;
+          el.style.opacity = "1";
+        }, 180);
+      }
+
+      function buildThumbs(variants) {
+        const row = document.getElementById("thumbRow");
+        row.innerHTML = "";
+        variants.forEach((v, i) => {
+          const div = document.createElement("div");
+          div.className = "thumb" + (i === 0 ? " active" : "");
+          div.innerHTML = `<img src="${v.image}" alt="${v.label}" />`;
+          div.addEventListener("click", () => {
+            row
+              .querySelectorAll(".thumb")
+              .forEach((t) => t.classList.remove("active"));
+            div.classList.add("active");
+            setMainImage(v.image, true);
+            syncSwatchActive(i);
+          });
+          row.appendChild(div);
+        });
+      }
+
+      // ── COLOUR SWATCHES ────────────────────────────────────────────────────
+      function buildColourSwatches(variants) {
+        const wrap = document.getElementById("colorOptions");
+        wrap.innerHTML = "";
+        variants.forEach((v, i) => {
+          const sw = document.createElement("div");
+          sw.className = "color-swatch" + (i === 0 ? " active" : "");
+          sw.innerHTML = `
+            <div class="color-dot ${i === 0 ? "active" : ""}" style="background:${v.color}" title="${v.label}"></div>
+            <span class="color-swatch-label">${v.label}</span>`;
+          sw.addEventListener("click", () => {
+            currentVariantIndex = i;
+            syncSwatchActive(i);
+            syncThumbActive(i);
+            setMainImage(v.image, true);
+          });
+          wrap.appendChild(sw);
+        });
+      }
+
+      function syncSwatchActive(index) {
+        const swatches = document.querySelectorAll(".color-swatch");
+        const dots = document.querySelectorAll(".color-dot");
+        swatches.forEach((s) => s.classList.remove("active"));
+        dots.forEach((d) => d.classList.remove("active"));
+        if (swatches[index]) swatches[index].classList.add("active");
+        if (dots[index]) dots[index].classList.add("active");
+        currentVariantIndex = index;
+      }
+
+      function syncThumbActive(index) {
+        const thumbs = document
+          .getElementById("thumbRow")
+          .querySelectorAll(".thumb");
+        thumbs.forEach((t) => t.classList.remove("active"));
+        if (thumbs[index]) thumbs[index].classList.add("active");
+      }
+
+      // ── RELATED ────────────────────────────────────────────────────────────
+      function buildRelated(ids, currentId) {
+        const grid = document.getElementById("relatedGrid");
+        grid.innerHTML = "";
+        let list = ids
+          .filter((id) => id !== currentId && PRODUCTS[id])
+          .slice(0, 3);
+        if (list.length < 3) {
+          Object.keys(PRODUCTS)
+            .filter((id) => id !== currentId && !list.includes(id))
+            .slice(0, 3 - list.length)
+            .forEach((id) => list.push(id));
+        }
+        list.forEach((id) => {
+          const p = PRODUCTS[id];
+          const a = document.createElement("a");
+          a.href = "product.html?id=" + id;
+          a.className = "related-card";
+          a.innerHTML = `
+            <div class="related-card-img">
+              <img src="${p.variants[0].image}" alt="${p.name}" loading="lazy" />
+            </div>
+            <span class="related-region">${p.origin}</span>
+            <h4>${p.name}</h4>
+            <span class="related-price">&#x20B9; ${p.price.toLocaleString("en-IN")}</span>`;
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            history.pushState({}, "", "product.html?id=" + id);
+            loadProduct(id);
+          });
+          grid.appendChild(a);
+        });
+      }
+
+      // ── CART & WISHLIST ────────────────────────────────────────────────────
+      function handleAddToCart(btn) {
+        const p = PRODUCTS[currentProductId];
+        const qty = parseInt(document.getElementById("quantity").value) || 1;
+        const variant = p.variants[currentVariantIndex];
+        Store.addToCart({
+          id: currentProductId,
+          name: p.name,
+          region: p.origin.split("\u00B7")[0].trim(),
+          price: p.price,
+          image: variant.image,
+          variant: variant.label,
+          qty,
+        });
+        btn.textContent = "\u2713 Added to Cart";
+        btn.style.background = "#4a7c59";
+        setTimeout(() => {
+          btn.textContent = "Add to Cart";
+          btn.style.background = "";
+        }, 2500);
+      }
+
+      function handleWishlist(btn) {
+        const p = PRODUCTS[currentProductId];
+        if (Store.isInWishlist(currentProductId)) {
+          Store.removeFromWishlist(currentProductId);
+          btn.textContent = "\u2661";
+          btn.classList.remove("liked");
+          Store.showToast("Removed from wishlist");
+        } else {
+          Store.addToWishlist({
+            id: currentProductId,
+            name: p.name,
+            region: p.origin.split("\u00B7")[0].trim(),
+            price: p.price,
+            image: p.variants[0].image,
+          });
+          btn.textContent = "\u2665";
+          btn.classList.add("liked");
+        }
+      }
+
+      // ── ACCORDION ──────────────────────────────────────────────────────────
+      function toggleAccordion(header) {
+        const item = header.parentElement;
+        const isOpen = item.classList.contains("open");
+        document
+          .querySelectorAll(".accordion-item")
+          .forEach((i) => i.classList.remove("open"));
+        if (!isOpen) item.classList.add("open");
+      }
+
+      // ── NAV ────────────────────────────────────────────────────────────────
+      document.getElementById("decreaseQty").addEventListener("click", () => {
+        const q = document.getElementById("quantity");
+        if (parseInt(q.value) > 1) q.value = parseInt(q.value) - 1;
+      });
+      document.getElementById("increaseQty").addEventListener("click", () => {
+        const q = document.getElementById("quantity");
+        q.value = parseInt(q.value) + 1;
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-in").forEach((f) => observer.observe(f));
+
+      window.addEventListener("popstate", () => {
+        const id =
+          new URLSearchParams(window.location.search).get("id") ||
+          "navy-zari-silk";
+        loadProduct(id);
+      });
+
+      // ── INIT ───────────────────────────────────────────────────────────────
+      window.addEventListener("load", () => {
+        const id =
+          new URLSearchParams(window.location.search).get("id") ||
+          "navy-zari-silk";
+        loadProduct(id);
+      });
+
+      // ── Load on DOM ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          const id =
+            new URLSearchParams(window.location.search).get("id") ||
+            "navy-zari-silk";
+          loadProduct(id);
+        });
+      } else {
+        const id =
+          new URLSearchParams(window.location.search).get("id") ||
+          "navy-zari-silk";
+        loadProduct(id);
+      }
+    </script>
+
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

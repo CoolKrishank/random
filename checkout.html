@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .checkout-page {
+        padding-top: var(--nav-h);
+        background: var(--parchment);
+        min-height: 80vh;
+      }
+      .checkout-header {
+        padding: 50px 8% 30px;
+        border-bottom: 1px solid var(--border);
+        background: white;
+      }
+      .checkout-header .label-xs {
+        margin-bottom: 10px;
+      }
+      .checkout-header h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--forest);
+        font-style: italic;
+      }
+      .checkout-layout {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 3px;
+        background: var(--border);
+        max-width: var(--max-w);
+        margin: 40px auto;
+        padding: 0 8%;
+      }
+      .order-summary {
+        background: white;
+        padding: 40px 36px;
+      }
+      .order-summary h2,
+      .checkout-panel h2 {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        color: var(--forest);
+        margin-bottom: 28px;
+        font-style: italic;
+      }
+      .order-summary h2::after,
+      .checkout-panel h2::after {
+        display: none;
+      }
+      .order-item {
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        gap: 18px;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+      }
+      .order-item:last-of-type {
+        border-bottom: none;
+      }
+      .order-item-img {
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--cream);
+      }
+      .order-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .order-item-name {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--forest);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .order-item-meta {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .order-item-price {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--forest);
+        white-space: nowrap;
+      }
+      .checkout-panel {
+        background: white;
+        padding: 40px 36px;
+        display: flex;
+        flex-direction: column;
+      }
+      .checkout-notice {
+        background: var(--cream);
+        border-left: 3px solid var(--gold);
+        padding: 18px 20px;
+        margin-bottom: 28px;
+      }
+      .checkout-notice p {
+        font-size: 0.88rem;
+        color: var(--forest);
+        line-height: 1.6;
+        margin: 0;
+      }
+      .checkout-notice p + p {
+        margin-top: 8px;
+      }
+      .order-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-top: 1px solid var(--border);
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-family: var(--font-label);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .order-total-row.grand {
+        border-top: 2px solid var(--forest);
+        margin-top: 6px;
+        padding-top: 18px;
+      }
+      .order-total-row.grand span:first-child {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--forest);
+        font-style: italic;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .order-total-row.grand span:last-child {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        color: var(--forest);
+      }
+      .checkout-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 28px;
+      }
+      .checkout-whatsapp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 16px;
+        background: #25d366;
+        color: white;
+        text-decoration: none;
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: background 0.3s;
+      }
+      .checkout-whatsapp:hover {
+        background: #1ebe5b;
+        color: white;
+      }
+      .checkout-email {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        border: 1px solid var(--forest);
+        color: var(--forest);
+        text-decoration: none;
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: all 0.3s;
+      }
+      .checkout-email:hover {
+        background: var(--forest);
+        color: white;
+      }
+      .secure-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin-top: 16px;
+        text-transform: uppercase;
+      }
+      .cart-empty-msg {
+        text-align: center;
+        padding: 80px 20px;
+      }
+      .cart-empty-msg h3 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 12px;
+      }
+      .cart-empty-msg p {
+        color: var(--muted);
+        margin-bottom: 28px;
+      }
+      @media (max-width: 900px) {
+        .checkout-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .order-item {
+          grid-template-columns: 60px 1fr auto;
+          gap: 12px;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/checkout.html" />
+    <meta property="og:title" content="Checkout | Aaraina Sarees" />
+    <meta property="og:description" content="Complete your order for handwoven sarees from Aaraina." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Checkout | Aaraina Sarees" />
+    <meta name="twitter:description" content="Complete your order for handwoven sarees from Aaraina." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<div class="checkout-page">
+      <div class="checkout-header">
+        <span class="label-xs">Review &amp; Confirm</span>
+        <h1>Your Order</h1>
+      </div>
+
+      <div class="checkout-layout" id="checkoutLayout">
+        <div class="order-summary">
+          <h2>Order Summary</h2>
+          <div id="orderItems"></div>
+        </div>
+        <div class="checkout-panel">
+          <h2>Complete Your Order</h2>
+          <div class="checkout-notice">
+            <p>Our secure payment gateway is coming very soon.</p>
+            <p>
+              To place your order right now, tap
+              <strong>Order via WhatsApp</strong> or
+              <strong>Order via Email</strong> &mdash; your full cart is
+              pre-filled in the message.
+            </p>
+          </div>
+          <div id="totalRows"></div>
+          <div class="checkout-actions">
+            <a
+              id="waLink"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              class="checkout-whatsapp"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+                />
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.524 5.854L0 24l6.336-1.48A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.016-1.374l-.36-.214-3.732.872.944-3.643-.235-.374A9.818 9.818 0 1 1 12 21.818z"
+                />
+              </svg>
+              Order via WhatsApp
+            </a>
+            <a
+              id="emailLink"
+              href="/cdn-cgi/l/email-protection#31585f575e7150504350585f501f525e5c"
+              class="checkout-email"
+            >
+              Order via Email
+            </a>
+          </div>
+          <div class="secure-note">
+            &#8853; Your cart is saved &amp; waiting
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    
+  
+    <script src="products.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

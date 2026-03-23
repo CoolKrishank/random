@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .login-page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .login-visual {
+        position: relative;
+        overflow: hidden;
+        background: var(--forest);
+      }
+      .login-visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.55;
+      }
+      .login-visual-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 60px;
+        background: linear-gradient(
+          to top,
+          rgba(16, 18, 8, 0.85) 0%,
+          transparent 60%
+        );
+      }
+      .login-visual-overlay .eyebrow {
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 14px;
+      }
+      .login-visual-overlay h2 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 3vw, 3rem);
+        color: white;
+        line-height: 1.1;
+      }
+      .login-visual-overlay h2 em {
+        color: var(--gold-light);
+      }
+      .login-visual-overlay h2::after {
+        display: none;
+      }
+      .login-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+        background: var(--parchment);
+      }
+      .login-box {
+        width: 100%;
+        max-width: 420px;
+      }
+      .login-logo {
+        display: block;
+        height: 48px;
+        margin: 0 auto 40px;
+      }
+      .login-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 36px;
+      }
+      .login-tab {
+        flex: 1;
+        padding: 12px;
+        background: none;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        transition: all 0.25s;
+      }
+      .login-tab.active {
+        color: var(--forest);
+        border-bottom-color: var(--gold);
+      }
+      .form-panel {
+        display: none;
+      }
+      .form-panel.active {
+        display: block;
+      }
+      .field {
+        margin-bottom: 24px;
+        position: relative;
+      }
+      .field label {
+        display: block;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .field input {
+        width: 100%;
+        padding: 13px 0;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        background: transparent;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.3s;
+        border-radius: 0;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+      .field input:focus {
+        border-bottom-color: var(--gold);
+      }
+      .field .underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--gold);
+        transition: width 0.4s;
+      }
+      .field input:focus ~ .underline {
+        width: 100%;
+      }
+      .auth-btn {
+        width: 100%;
+        padding: 16px;
+        background: var(--forest);
+        color: white;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 8px;
+      }
+      .auth-btn:hover {
+        background: var(--gold);
+      }
+      .auth-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .auth-divider {
+        text-align: center;
+        margin: 24px 0;
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        position: relative;
+      }
+      .auth-divider::before,
+      .auth-divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 40%;
+        height: 1px;
+        background: var(--border);
+      }
+      .auth-divider::before {
+        left: 0;
+      }
+      .auth-divider::after {
+        right: 0;
+      }
+      .google-btn {
+        width: 100%;
+        padding: 14px;
+        background: white;
+        border: 1px solid var(--border);
+        color: var(--ink);
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s;
+      }
+      .google-btn:hover {
+        border-color: var(--gold);
+        color: var(--forest);
+      }
+      .auth-error {
+        background: #fef0f0;
+        border-left: 3px solid #c0392b;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 0.82rem;
+        color: #c0392b;
+        display: none;
+      }
+      .auth-error.show {
+        display: block;
+      }
+      .forgot-link {
+        display: block;
+        text-align: right;
+        margin-top: 8px;
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .forgot-link:hover {
+        color: var(--gold);
+      }
+      .reset-sent {
+        background: var(--cream);
+        border-left: 3px solid var(--gold);
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 0.82rem;
+        color: var(--forest);
+        display: none;
+      }
+      .reset-sent.show {
+        display: block;
+      }
+      @media (max-width: 768px) {
+        .login-page {
+          grid-template-columns: 1fr;
+        }
+        .login-visual {
+          display: none;
+        }
+        .login-panel {
+          padding: 40px 24px;
+          min-height: 100vh;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/login.html" />
+    <meta property="og:title" content="Sign In | Aaraina Sarees" />
+    <meta property="og:description" content="Sign in or create an account to manage your Aaraina orders and wishlist." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sign In | Aaraina Sarees" />
+    <meta name="twitter:description" content="Sign in or create an account to manage your Aaraina orders and wishlist." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+    <div class="login-page">
+      <!-- Left visual -->
+      <div class="login-visual">
+        <img src="hero.jpeg" alt="Aaraina" />
+        <div class="login-visual-overlay">
+          <span class="eyebrow">Welcome to Aaraina</span>
+          <h2>Woven in<br /><em>legacy &amp; love</em></h2>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="login-panel">
+        <div class="login-box">
+          <a href="index.html">
+            <img src="AARAINA.png" alt="Aaraina" class="login-logo" />
+          </a>
+
+          <div class="login-tabs">
+            <button
+              class="login-tab active"
+              onclick="switchTab('signin', this)"
+            >
+              Sign In
+            </button>
+            <button class="login-tab" onclick="switchTab('signup', this)">
+              Create Account
+            </button>
+          </div>
+
+          <div class="auth-error" id="authError"></div>
+          <div class="reset-sent" id="resetSent">
+            Password reset email sent — check your inbox.
+          </div>
+
+          <!-- Sign In -->
+          <div class="form-panel active" id="signinPanel">
+            <div class="field">
+              <label>Email Address</label>
+              <input
+                type="email"
+                id="siEmail"
+                placeholder="priya@example.com"
+                autocomplete="email"
+              />
+              <span class="underline"></span>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input
+                type="password"
+                id="siPassword"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+              <span class="underline"></span>
+            </div>
+            <a href="#" class="forgot-link" onclick="sendReset(event)"
+              >Forgot password?</a
+            >
+            <button class="auth-btn" id="signinBtn" onclick="signIn()">
+              Sign In
+            </button>
+            <div class="auth-divider">or</div>
+            <button class="google-btn" onclick="signInGoogle()">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  fill="#EA4335"
+                />
+              </svg>
+              Continue with Google
+            </button>
+          </div>
+
+          <!-- Sign Up -->
+          <div class="form-panel" id="signupPanel">
+            <div class="field">
+              <label>Full Name</label>
+              <input
+                type="text"
+                id="suName"
+                placeholder="Priya Sharma"
+                autocomplete="name"
+              />
+              <span class="underline"></span>
+            </div>
+            <div class="field">
+              <label>Email Address</label>
+              <input
+                type="email"
+                id="suEmail"
+                placeholder="priya@example.com"
+                autocomplete="email"
+              />
+              <span class="underline"></span>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input
+                type="password"
+                id="suPassword"
+                placeholder="Min. 6 characters"
+                autocomplete="new-password"
+              />
+              <span class="underline"></span>
+            </div>
+            <button class="auth-btn" id="signupBtn" onclick="signUp()">
+              Create Account
+            </button>
+            <div class="auth-divider">or</div>
+            <button class="google-btn" onclick="signInGoogle()">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  fill="#EA4335"
+                />
+              </svg>
+              Continue with Google
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase & Store -->
+    <script>
+      // Firebase is already initialized via firebase-config.js
+      // Access it via window.firebaseApp
+
+      // ── FIREBASE AUTH SETUP ─────────────────────────────────────────────────────
+      // Using Firebase Auth for authentication
+      const app = window.firebaseApp;
+
+      // ── ADMIN EMAILS ────────────────────────────────────────────────────────
+      // Add your admin email(s) here — anyone in this list goes to admin.html
+      const ADMIN_EMAILS = ["admin@aaraina.com", "info@aaraina.com"];
+
+      function showError(msg) {
+        const el = document.getElementById("authError");
+        el.textContent = msg;
+        el.classList.add("show");
+      }
+      function clearError() {
+        document.getElementById("authError").classList.remove("show");
+        document.getElementById("resetSent").classList.remove("show");
+      }
+      function setLoading(btnId, loading) {
+        const btn = document.getElementById(btnId);
+        btn.disabled = loading;
+        btn.textContent = loading ? "Please wait…" : btn.dataset.label;
+      }
+      function redirect(email) {
+        if (ADMIN_EMAILS.includes(email.toLowerCase())) {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "account.html";
+        }
+      }
+
+      // Store labels for reset
+      document.getElementById("signinBtn").dataset.label = "Sign In";
+      document.getElementById("signupBtn").dataset.label = "Create Account";
+
+      window.switchTab = function (tab, btn) {
+        clearError();
+        document
+          .querySelectorAll(".login-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".form-panel")
+          .forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(tab + "Panel").classList.add("active");
+      };
+
+      window.signIn = async function () {
+        clearError();
+        const email = document.getElementById("siEmail").value.trim();
+        const password = document.getElementById("siPassword").value;
+        if (!email || !password) {
+          showError("Please enter your email and password.");
+          return;
+        }
+        setLoading("signinBtn", true);
+        try {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          redirect(cred.user.email);
+        } catch (e) {
+          showError(friendlyError(e.code));
+          setLoading("signinBtn", false);
+        }
+      };
+
+      window.signUp = async function () {
+        clearError();
+        const name = document.getElementById("suName").value.trim();
+        const email = document.getElementById("suEmail").value.trim();
+        const password = document.getElementById("suPassword").value;
+        if (!name || !email || !password) {
+          showError("Please fill in all fields.");
+          return;
+        }
+        if (password.length < 6) {
+          showError("Password must be at least 6 characters.");
+          return;
+        }
+        setLoading("signupBtn", true);
+        try {
+          const cred = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+          await updateProfile(cred.user, { displayName: name });
+          redirect(cred.user.email);
+        } catch (e) {
+          showError(friendlyError(e.code));
+          setLoading("signupBtn", false);
+        }
+      };
+
+      window.signInGoogle = async function () {
+        clearError();
+        try {
+          const cred = await signInWithPopup(auth, provider);
+          redirect(cred.user.email);
+        } catch (e) {
+          if (e.code !== "auth/popup-closed-by-user")
+            showError(friendlyError(e.code));
+        }
+      };
+
+      window.sendReset = async function (e) {
+        e.preventDefault();
+        clearError();
+        const email = document.getElementById("siEmail").value.trim();
+        if (!email) {
+          showError("Enter your email address above first.");
+          return;
+        }
+        try {
+          await sendPasswordResetEmail(auth, email);
+          document.getElementById("resetSent").classList.add("show");
+        } catch (e) {
+          showError(friendlyError(e.code));
+        }
+      };
+
+      function friendlyError(code) {
+        const map = {
+          "auth/user-not-found": "No account found with that email.",
+          "auth/wrong-password": "Incorrect password. Try again.",
+          "auth/email-already-in-use":
+            "An account with this email already exists.",
+          "auth/invalid-email": "Please enter a valid email address.",
+          "auth/weak-password": "Password must be at least 6 characters.",
+          "auth/too-many-requests":
+            "Too many attempts. Please try again later.",
+          "auth/network-request-failed":
+            "Network error. Check your connection.",
+          "auth/invalid-credential": "Incorrect email or password.",
+        };
+        return map[code] || "Something went wrong. Please try again.";
+      }
+
+      // Allow Enter key to submit
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        const active = document.querySelector(".form-panel.active").id;
+        if (active === "signinPanel") window.signIn();
+        else window.signUp();
+      });
+    </script>
+  
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

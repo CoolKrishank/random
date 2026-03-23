@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .wishlist-page {
+        padding-top: var(--nav-h);
+        background: var(--parchment);
+        min-height: 80vh;
+      }
+
+      .wishlist-header {
+        padding: 50px 8% 30px;
+        border-bottom: 1px solid var(--border);
+        background: white;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .wishlist-header-left .label-xs {
+        margin-bottom: 10px;
+      }
+
+      .wishlist-header-left h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--forest);
+        font-style: italic;
+      }
+
+      .wishlist-header-left .item-count {
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        margin-top: 6px;
+        display: block;
+      }
+
+      .share-wishlist {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        cursor: pointer;
+        border: 1px solid var(--border);
+        padding: 10px 18px;
+        background: none;
+        transition: all 0.3s;
+      }
+
+      .share-wishlist:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* GRID */
+      .wishlist-grid-wrap {
+        padding: 50px 8% 80px;
+        max-width: var(--max-w);
+        margin: 0 auto;
+      }
+
+      .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 3px;
+        background: var(--border);
+      }
+
+      /* WISHLIST CARD — extends product-card */
+      .wishlist-card {
+        background: white;
+        display: block;
+        text-decoration: none;
+        position: relative;
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      .wishlist-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 60px var(--shadow);
+        z-index: 2;
+      }
+
+      .wl-img-wrap {
+        position: relative;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--cream);
+      }
+
+      .wl-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+      }
+
+      .wishlist-card:hover .wl-img-wrap img {
+        transform: scale(1.06);
+      }
+
+      /* Remove from wishlist */
+      .wl-remove {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        z-index: 3;
+        border: none;
+        color: var(--gold);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .wl-remove:hover {
+        background: #c0392b;
+        color: white;
+      }
+
+      /* Add to cart overlay */
+      .wl-add-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(47, 53, 16, 0.92);
+        color: white;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        padding: 14px;
+        text-align: center;
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+        z-index: 2;
+        cursor: pointer;
+        border: none;
+        width: 100%;
+      }
+
+      .wishlist-card:hover .wl-add-overlay {
+        transform: translateY(0);
+      }
+
+      .wl-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: var(--forest);
+        color: white;
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        z-index: 2;
+      }
+
+      .wl-badge.new {
+        background: var(--gold);
+      }
+
+      .wl-body {
+        padding: 20px 22px 26px;
+        border-top: 1px solid var(--border);
+      }
+
+      .wl-region {
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 7px;
+      }
+
+      .wl-name {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        color: var(--forest);
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .wl-desc {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-bottom: 14px;
+        line-height: 1.5;
+        display: block;
+      }
+
+      .wl-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .wl-price {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        color: var(--forest);
+      }
+
+      .wl-price .currency {
+        font-size: 0.78rem;
+        vertical-align: super;
+      }
+
+      .wl-add-btn {
+        font-family: var(--font-label);
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--forest);
+        border: 1px solid var(--forest);
+        padding: 6px 14px;
+        background: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .wl-add-btn:hover {
+        background: var(--forest);
+        color: white;
+      }
+      .wl-add-btn.added {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: white;
+      }
+
+      /* EMPTY STATE */
+      .wishlist-empty {
+        text-align: center;
+        padding: 120px 40px;
+        display: none;
+      }
+
+      .wishlist-empty.show {
+        display: block;
+      }
+
+      .empty-heart {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 20px;
+        color: var(--border);
+      }
+
+      .wishlist-empty h3 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 12px;
+      }
+
+      .wishlist-empty p {
+        color: var(--muted);
+        margin-bottom: 32px;
+      }
+
+      /* MOVE ALL TO CART */
+      .wishlist-actions {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 0 28px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .move-all-btn {
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        background: var(--forest);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .move-all-btn:hover {
+        background: var(--gold);
+      }
+
+      .clear-all-btn {
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .clear-all-btn:hover {
+        border-color: #c0392b;
+        color: #c0392b;
+      }
+
+      /* SHARE TOAST */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--forest);
+        color: white;
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        opacity: 0;
+        transition: all 0.4s ease;
+        z-index: 9999;
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        .wishlist-header {
+          padding: 36px 5% 20px;
+        }
+        .wishlist-grid-wrap {
+          padding: 36px 5% 60px;
+        }
+        .wishlist-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .wishlist-actions {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .wishlist-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/wishlist.html" />
+    <meta property="og:title" content="Wishlist | Aaraina Sarees" />
+    <meta property="og:description" content="Your saved handwoven sarees at Aaraina." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wishlist | Aaraina Sarees" />
+    <meta name="twitter:description" content="Your saved handwoven sarees at Aaraina." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<!-- WISHLIST PAGE -->
+    <div class="wishlist-page">
+      <div class="wishlist-header">
+        <div class="wishlist-header-left">
+          <span class="label-xs">Saved Pieces</span>
+          <h1>My Wishlist</h1>
+          <span class="item-count" id="wlCount">3 items</span>
+        </div>
+        <button class="share-wishlist" onclick="shareWishlist()">
+          ⇧ Share Wishlist
+        </button>
+      </div>
+
+      <div class="wishlist-grid-wrap">
+        <div class="wishlist-actions" id="wlActions">
+          <button class="move-all-btn" onclick="moveAllToCart()">
+            Move All to Cart
+          </button>
+          <button class="clear-all-btn" onclick="clearAll()">
+            Clear Wishlist
+          </button>
+        </div>
+
+        <div class="wishlist-grid" id="wishlistGrid"></div>
+
+        <div class="wishlist-empty" id="wishlistEmpty">
+          <span class="empty-heart">♡</span>
+          <h3>Nothing saved yet</h3>
+          <p>Heart the pieces you love and find them here.</p>
+          <a href="collections.html" class="btn btn-primary"
+            >Browse Collection</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <div id="footer-placeholder"></div>
+
+<!-- Toast -->
+    <div class="toast" id="toast"></div>
+    <script>function renderWishlist() {
+        const wl = Store.getWishlist();
+        const grid = document.getElementById("wishlistGrid");
+        grid.innerHTML = "";
+        const isEmpty = wl.length === 0;
+        grid.style.display = isEmpty ? "none" : "grid";
+        document
+          .getElementById("wishlistEmpty")
+          .classList.toggle("show", isEmpty);
+        document.getElementById("wlActions").style.display = isEmpty
+          ? "none"
+          : "flex";
+        document.getElementById("wlCount").textContent =
+          wl.length + " item" + (wl.length !== 1 ? "s" : "");
+
+        wl.forEach((item) => {
+          const inCart = Store.isInCart(item.id);
+          const el = document.createElement("a");
+          el.href = `product.html?id=${item.id}`;
+          el.className = "wishlist-card";
+          el.id = "wl-" + item.id;
+          el.innerHTML = `
+            <div class="wl-img-wrap">
+              <span class="wl-badge">Handloom</span>
+              <button class="wl-remove" onclick="removeWish('${item.id}', event)">♥</button>
+              <img src="${item.image}" alt="${item.name}" loading="lazy" />
+              <button class="wl-add-overlay" onclick="addToCartFromWish('${item.id}', event)">
+                ${inCart ? "✓ In Cart" : "Add to Cart"}
+              </button>
+            </div>
+            <div class="wl-body">
+              <span class="wl-region">${item.region}</span>
+              <span class="wl-name">${item.name}</span>
+              <div class="wl-footer">
+                <span class="wl-price"><span class="currency">₹</span>${item.price.toLocaleString("en-IN")}</span>
+                <button class="wl-add-btn ${inCart ? "added" : ""}" id="addbtn-${item.id}"
+                  onclick="addToCartFromWish('${item.id}', event)">
+                  ${inCart ? "✓ In Cart" : "Add to Cart"}
+                </button>
+              </div>
+            </div>`;
+          grid.appendChild(el);
+        });
+      }
+
+      function removeWish(id, e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const el = document.getElementById("wl-" + id);
+        el.style.opacity = "0";
+        el.style.transform = "scale(0.92)";
+        el.style.transition = "all 0.35s ease";
+        setTimeout(() => {
+          Store.removeFromWishlist(id);
+          renderWishlist();
+        }, 350);
+        Store.showToast("Removed from wishlist");
+      }
+
+      function addToCartFromWish(id, e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const item = Store.getWishlist().find((i) => i.id === id);
+        if (!item || Store.isInCart(id)) return;
+        Store.addToCart({ ...item, variant: "Handloom" });
+        renderWishlist();
+      }
+
+      function moveAllToCart() {
+        Store.getWishlist().forEach((item) => {
+          if (!Store.isInCart(item.id))
+            Store.addToCart({ ...item, variant: "Handloom" });
+        });
+        renderWishlist();
+        Store.showToast("All items added to cart");
+      }
+
+      function clearAll() {
+        if (!confirm("Remove all items from your wishlist?")) return;
+        Store.getWishlist().forEach((i) => Store.removeFromWishlist(i.id));
+        renderWishlist();
+        Store.showToast("Wishlist cleared");
+      }
+
+      function shareWishlist() {
+        if (navigator.share) {
+          navigator.share({
+            title: "My Aaraina Wishlist",
+            url: window.location.href,
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            Store.showToast("Wishlist link copied!");
+          });
+        }
+      }
+
+      renderWishlist();
+    </script>
+  
+    <script src="products.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

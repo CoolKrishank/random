@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .account-page {
+        padding-top: var(--nav-h);
+        background: var(--parchment);
+        min-height: 80vh;
+      }
+      .account-header {
+        padding: 50px 8% 30px;
+        border-bottom: 1px solid var(--border);
+        background: white;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .account-header h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--forest);
+        font-style: italic;
+      }
+      .account-header h1::after {
+        display: none;
+      }
+      .account-greeting {
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .signout-btn {
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        padding: 10px 20px;
+        background: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .signout-btn:hover {
+        border-color: #c0392b;
+        color: #c0392b;
+      }
+      .account-layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 3px;
+        background: var(--border);
+        max-width: var(--max-w);
+        margin: 40px auto;
+        padding: 0 8%;
+      }
+      .account-nav {
+        background: white;
+        padding: 32px 0;
+      }
+      .account-nav-item {
+        display: block;
+        width: 100%;
+        padding: 14px 28px;
+        background: none;
+        border: none;
+        text-align: left;
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        cursor: pointer;
+        border-left: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .account-nav-item:hover {
+        color: var(--forest);
+        background: var(--parchment);
+      }
+      .account-nav-item.active {
+        color: var(--forest);
+        border-left-color: var(--gold);
+        background: var(--cream);
+      }
+      .account-content {
+        background: white;
+        padding: 40px 44px;
+      }
+      .account-section {
+        display: none;
+      }
+      .account-section.active {
+        display: block;
+      }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 28px;
+      }
+      .section-title::after {
+        display: none;
+      }
+      .profile-field {
+        margin-bottom: 24px;
+      }
+      .profile-field label {
+        display: block;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .profile-field input {
+        width: 100%;
+        padding: 13px 0;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        background: transparent;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.3s;
+        border-radius: 0;
+      }
+      .profile-field input:focus {
+        border-bottom-color: var(--gold);
+      }
+      .save-btn {
+        padding: 14px 32px;
+        background: var(--forest);
+        color: white;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 8px;
+      }
+      .save-btn:hover {
+        background: var(--gold);
+      }
+      .empty-section {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+      }
+      .empty-section p {
+        margin-bottom: 24px;
+        font-size: 0.9rem;
+      }
+      .wishlist-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 3px;
+        background: var(--border);
+      }
+      .wishlist-mini-card {
+        background: white;
+        text-decoration: none;
+        display: block;
+      }
+      .wishlist-mini-card img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+      }
+      .wishlist-mini-info {
+        padding: 12px 14px;
+      }
+      .wishlist-mini-name {
+        font-family: var(--font-display);
+        font-size: 0.9rem;
+        color: var(--forest);
+        display: block;
+      }
+      .wishlist-mini-price {
+        font-size: 0.8rem;
+        color: var(--gold);
+      }
+      .order-empty-note {
+        background: var(--cream);
+        border-left: 3px solid var(--gold);
+        padding: 18px 20px;
+        font-size: 0.88rem;
+        color: var(--forest);
+        line-height: 1.6;
+      }
+      @media (max-width: 768px) {
+        .account-layout {
+          grid-template-columns: 1fr;
+        }
+        .account-nav {
+          display: flex;
+          overflow-x: auto;
+          padding: 0;
+        }
+        .account-nav-item {
+          white-space: nowrap;
+          border-left: none;
+          border-bottom: 2px solid transparent;
+          padding: 14px 20px;
+        }
+        .account-nav-item.active {
+          border-bottom-color: var(--gold);
+          border-left: none;
+        }
+        .account-content {
+          padding: 28px 20px;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/account.html" />
+    <meta property="og:title" content="My Account | Aaraina Sarees" />
+    <meta property="og:description" content="Manage your Aaraina account, orders and preferences." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="My Account | Aaraina Sarees" />
+    <meta name="twitter:description" content="Manage your Aaraina account, orders and preferences." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<div class="account-page">
+      <div class="account-header">
+        <div>
+          <span class="account-greeting" id="greeting">Welcome back</span>
+          <h1>My Account</h1>
+        </div>
+        <button class="signout-btn" onclick="signOut()">Sign Out</button>
+      </div>
+      <div class="account-layout">
+        <nav class="account-nav">
+          <button
+            class="account-nav-item active"
+            onclick="showSection('profile', this)"
+          >
+            Profile
+          </button>
+          <button
+            class="account-nav-item"
+            onclick="showSection('wishlist', this)"
+          >
+            Wishlist
+          </button>
+          <button
+            class="account-nav-item"
+            onclick="showSection('orders', this)"
+          >
+            Orders
+          </button>
+        </nav>
+        <div class="account-content">
+          <!-- Profile -->
+          <div class="account-section active" id="profileSection">
+            <h2 class="section-title">Your Profile</h2>
+            <div class="profile-field">
+              <label>Full Name</label>
+              <input type="text" id="profileName" placeholder="Your name" />
+            </div>
+            <div class="profile-field">
+              <label>Email Address</label>
+              <input
+                type="email"
+                id="profileEmail"
+                readonly
+                style="opacity: 0.5; cursor: not-allowed"
+              />
+            </div>
+            <div class="profile-field">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                id="profilePhone"
+                placeholder="+91 XXXXX XXXXX"
+              />
+            </div>
+            <div class="profile-field">
+              <label>Delivery Address</label>
+              <input
+                type="text"
+                id="profileAddress"
+                placeholder="Flat, Street, City, PIN"
+              />
+            </div>
+            <button class="save-btn" onclick="saveProfile()">
+              Save Changes
+            </button>
+          </div>
+          <!-- Wishlist -->
+          <div class="account-section" id="wishlistSection">
+            <h2 class="section-title">Saved Pieces</h2>
+            <div id="accountWishlist"></div>
+          </div>
+          <!-- Orders -->
+          <div class="account-section" id="ordersSection">
+            <h2 class="section-title">Your Orders</h2>
+            <div class="order-empty-note">
+              Orders placed via WhatsApp or email will be tracked here once our
+              order management system is set up. In the meantime, keep your
+              WhatsApp confirmation as your receipt.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut as fbSignOut,
+        updateProfile,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+      // Same config as login.html
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      onAuthStateChanged(auth, function (user) {
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+        document.getElementById("greeting").textContent =
+          "Welcome back, " + (user.displayName || "");
+        document.getElementById("profileName").value = user.displayName || "";
+        document.getElementById("profileEmail").value = user.email || "";
+        const saved = JSON.parse(
+          localStorage.getItem("aaraina_profile_" + user.uid) || "{}",
+        );
+        if (saved.phone)
+          document.getElementById("profilePhone").value = saved.phone;
+        if (saved.address)
+          document.getElementById("profileAddress").value = saved.address;
+      });
+
+      window.signOut = async function () {
+        await fbSignOut(auth);
+        window.location.href = "index.html";
+      };
+
+      window.saveProfile = async function () {
+        const user = auth.currentUser;
+        if (!user) return;
+        const name = document.getElementById("profileName").value.trim();
+        const phone = document.getElementById("profilePhone").value.trim();
+        const address = document.getElementById("profileAddress").value.trim();
+        if (name) await updateProfile(user, { displayName: name });
+        localStorage.setItem(
+          "aaraina_profile_" + user.uid,
+          JSON.stringify({ phone, address }),
+        );
+        Store.showToast("Profile saved");
+      };      document
+        .getElementById("hamburger")
+        .addEventListener("click", function () {
+          document.getElementById("mobileNav").classList.add("open");
+        });
+      document
+        .getElementById("mobileClose")
+        .addEventListener("click", function () {
+          document.getElementById("mobileNav").classList.remove("open");
+        });
+    </script>
+    <script>
+      function showSection(id, btn) {
+        document.querySelectorAll(".account-section").forEach(function (s) {
+          s.classList.remove("active");
+        });
+        document.querySelectorAll(".account-nav-item").forEach(function (b) {
+          b.classList.remove("active");
+        });
+        document.getElementById(id + "Section").classList.add("active");
+        btn.classList.add("active");
+        if (id === "wishlist") renderAccountWishlist();
+      }
+      function renderAccountWishlist() {
+        var wl = Store.getWishlist();
+        var el = document.getElementById("accountWishlist");
+        if (wl.length === 0) {
+          el.innerHTML =
+            "<div class='empty-section'><p>No saved pieces yet.</p><a href='collections.html' class='btn btn-primary'>Browse Collection</a></div>";
+          return;
+        }
+        var html = "<div class='wishlist-mini-grid'>";
+        wl.forEach(function (item) {
+          html +=
+            "<a href='product.html?id=" +
+            item.id +
+            "' class='wishlist-mini-card'>" +
+            "<img src='" +
+            item.image +
+            "' alt='" +
+            item.name +
+            "' loading='lazy' />" +
+            "<div class='wishlist-mini-info'>" +
+            "<span class='wishlist-mini-name'>" +
+            item.name +
+            "</span>" +
+            "<span class='wishlist-mini-price'>" +
+            Store.formatINR(item.price) +
+            "</span>" +
+            "</div>" +
+            "</a>";
+        });
+        html += "</div>";
+        el.innerHTML = html;
+      }
+    </script>
+  
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

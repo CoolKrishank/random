@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .cart-page {
+        padding-top: var(--nav-h);
+        background: var(--parchment);
+        min-height: 80vh;
+      }
+
+      .cart-header {
+        padding: 50px 8% 30px;
+        border-bottom: 1px solid var(--border);
+        background: white;
+      }
+
+      .cart-header .label-xs {
+        margin-bottom: 10px;
+      }
+
+      .cart-header h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--forest);
+        font-style: italic;
+      }
+
+      .cart-header .item-count {
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        margin-top: 6px;
+        display: block;
+      }
+
+      /* CART LAYOUT */
+      .cart-layout {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 3px;
+        background: var(--border);
+        max-width: var(--max-w);
+        margin: 40px auto;
+        padding: 0 8%;
+      }
+
+      /* LEFT — ITEMS */
+      .cart-items {
+        background: white;
+      }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 120px 1fr auto;
+        gap: 24px;
+        padding: 28px 32px;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background 0.3s;
+      }
+
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item:hover {
+        background: var(--parchment);
+      }
+
+      .cart-item-img {
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--cream);
+      }
+
+      .cart-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .cart-item:hover .cart-item-img img {
+        transform: scale(1.05);
+      }
+
+      .cart-item-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .cart-item-region {
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .cart-item-name {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        color: var(--forest);
+      }
+
+      .cart-item-variant {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .qty-control {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border: 1px solid var(--border);
+        width: fit-content;
+        margin-top: 8px;
+      }
+
+      .qty-btn {
+        width: 32px;
+        height: 32px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--forest);
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .qty-btn:hover {
+        background: var(--cream);
+      }
+
+      .qty-num {
+        width: 36px;
+        text-align: center;
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--forest);
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        height: 32px;
+        line-height: 32px;
+      }
+
+      .cart-item-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+      }
+
+      .cart-item-price {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        color: var(--forest);
+      }
+
+      .cart-item-price .currency {
+        font-size: 0.8rem;
+        vertical-align: super;
+      }
+
+      .remove-btn {
+        background: none;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        cursor: pointer;
+        transition: color 0.3s;
+        padding: 0;
+      }
+
+      .remove-btn:hover {
+        color: #c0392b;
+      }
+
+      /* EMPTY CART */
+      .cart-empty {
+        background: white;
+        padding: 100px 40px;
+        text-align: center;
+        display: none;
+      }
+
+      .cart-empty.show {
+        display: block;
+      }
+
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        display: block;
+        opacity: 0.3;
+      }
+
+      .cart-empty h3 {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        color: var(--forest);
+        margin-bottom: 10px;
+      }
+
+      .cart-empty p {
+        color: var(--muted);
+        margin-bottom: 30px;
+      }
+
+      /* RIGHT — SUMMARY */
+      .cart-summary {
+        background: white;
+        padding: 40px 36px;
+        position: sticky;
+        top: calc(var(--nav-h) + 20px);
+        align-self: start;
+      }
+
+      .summary-title {
+        font-family: var(--font-label);
+        font-size: 0.68rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--forest);
+        margin-bottom: 30px;
+        display: block;
+      }
+
+      .summary-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .summary-line:last-of-type {
+        border-bottom: none;
+      }
+
+      .summary-line span:last-child {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--forest);
+      }
+
+      .summary-line.total {
+        padding-top: 20px;
+        margin-top: 10px;
+        border-top: 2px solid var(--forest);
+        border-bottom: none;
+      }
+
+      .summary-line.total span:first-child {
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--forest);
+        font-weight: 500;
+      }
+
+      .summary-line.total span:last-child {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--forest);
+      }
+
+      .promo-wrap {
+        margin: 24px 0;
+        display: flex;
+        gap: 0;
+        border: 1px solid var(--border);
+      }
+
+      .promo-wrap input {
+        flex: 1;
+        padding: 12px 14px;
+        border: none;
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        color: var(--ink);
+        outline: none;
+        background: transparent;
+      }
+
+      .promo-wrap input::placeholder {
+        color: var(--muted);
+      }
+
+      .promo-wrap button {
+        padding: 12px 18px;
+        background: var(--forest);
+        color: white;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.3s;
+        white-space: nowrap;
+      }
+
+      .promo-wrap button:hover {
+        background: var(--gold);
+      }
+
+      .checkout-btn {
+        width: 100%;
+        padding: 18px;
+        background: var(--forest);
+        color: white;
+        border: none;
+        font-family: var(--font-label);
+        font-size: 0.72rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.4s;
+        margin-top: 18px;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+      }
+
+      .checkout-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(198, 167, 94, 0.3),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .checkout-btn:hover {
+        background: var(--gold);
+        color: white;
+      }
+      .checkout-btn:hover::before {
+        left: 100%;
+      }
+
+      .continue-link {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+        font-family: var(--font-label);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .continue-link:hover {
+        color: var(--gold);
+      }
+
+      .summary-trust {
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .trust-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .trust-line span:first-child {
+        font-size: 1rem;
+      }
+
+      /* YOU MAY ALSO LIKE */
+      .cart-related {
+        padding: 80px 8%;
+        background: var(--parchment);
+        text-align: center;
+      }
+
+      .cart-related h2 {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        color: var(--forest);
+        font-style: italic;
+        margin-bottom: 40px;
+      }
+
+      .cart-related h2::after {
+        display: none;
+      }
+
+      .cart-related-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
+        background: var(--border);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 1024px) {
+        .cart-layout {
+          grid-template-columns: 1fr;
+        }
+        .cart-summary {
+          position: static;
+        }
+        .cart-related-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .cart-layout {
+          padding: 0 5%;
+          margin: 20px auto;
+        }
+        .cart-item {
+          grid-template-columns: 90px 1fr;
+          gap: 16px;
+          padding: 20px;
+        }
+        .cart-item-actions {
+          grid-column: 1 / -1;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .cart-header {
+          padding: 40px 5% 24px;
+        }
+        .cart-related {
+          padding: 60px 5%;
+        }
+        .cart-related-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/cart.html" />
+    <meta property="og:title" content="Your Cart | Aaraina Sarees" />
+    <meta property="og:description" content="Review your selected handwoven sarees and proceed to checkout." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Your Cart | Aaraina Sarees" />
+    <meta name="twitter:description" content="Review your selected handwoven sarees and proceed to checkout." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<!-- CART PAGE -->
+    <div class="cart-page">
+      <div class="cart-header">
+        <span class="label-xs">Your Selection</span>
+        <h1>Shopping Cart</h1>
+        <span class="item-count" id="headerCount">0 items</span>
+      </div>
+
+      <div class="cart-layout">
+        <!-- LEFT: ITEMS -->
+        <div>
+          <div class="cart-empty" id="cartEmpty">
+            <span class="empty-icon">◎</span>
+            <h3>Your cart is empty</h3>
+            <p>Looks like you haven't added any sarees yet.</p>
+            <a href="collections.html" class="btn btn-primary"
+              >Explore Collection</a
+            >
+          </div>
+          <div class="cart-items" id="cartItems"></div>
+        </div>
+
+        <!-- RIGHT: SUMMARY -->
+        <div class="cart-summary">
+          <span class="summary-title">Order Summary</span>
+
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <span id="subtotal">₹0</span>
+          </div>
+          <div class="summary-line">
+            <span>Shipping</span>
+            <span style="color: var(--gold)">Free</span>
+          </div>
+          <div class="summary-line">
+            <span>Taxes</span>
+            <span id="taxes">Included</span>
+          </div>
+
+          <div class="promo-wrap">
+            <input type="text" id="promoInput" placeholder="Promo code" />
+            <button onclick="applyPromo()">Apply</button>
+          </div>
+
+          <div
+            class="summary-line promo-line"
+            id="promoLine"
+            style="display: none; color: var(--gold)"
+          >
+            <span>Promo discount</span>
+            <span id="promoAmt">−₹0</span>
+          </div>
+
+          <div class="summary-line total">
+            <span>Total</span>
+            <span id="totalAmt">₹0</span>
+          </div>
+
+          <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+          <a href="collections.html" class="continue-link"
+            >← Continue Shopping</a
+          >
+
+          <div class="summary-trust">
+            <div class="trust-line">
+              <span>🔒</span><span>Secure checkout</span>
+            </div>
+            <div class="trust-line">
+              <span>🚚</span><span>Free shipping across India</span>
+            </div>
+            <div class="trust-line">
+              <span>↩</span><span>7-day returns on all orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YOU MAY ALSO LIKE -->
+      <div class="cart-related fade-in">
+        <h2>You may also like</h2>
+        <div class="cart-related-grid">
+          <a href="product.html" class="product-card">
+            <div class="card-img-wrap">
+              <img src="Kanjivaram.png" alt="Kanjivaram" loading="lazy" />
+              <div class="card-overlay-btn">Quick View</div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">Tamil Nadu</span>
+              <span class="card-name">Kanjivaram Silk Saree</span>
+              <div class="card-footer">
+                <span class="card-price"
+                  ><span class="currency">₹</span>15,000</span
+                >
+              </div>
+            </div>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="card-img-wrap">
+              <img src="West Bengal.webp" alt="West Bengal" loading="lazy" />
+              <div class="card-overlay-btn">Quick View</div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">West Bengal</span>
+              <span class="card-name">Muslin Tant Saree</span>
+              <div class="card-footer">
+                <span class="card-price"
+                  ><span class="currency">₹</span>6,800</span
+                >
+              </div>
+            </div>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="card-img-wrap">
+              <img src="Bihar.avif" alt="Bihar" loading="lazy" />
+              <div class="card-overlay-btn">Quick View</div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">Bihar</span>
+              <span class="card-name">Bhagalpuri Silk Saree</span>
+              <div class="card-footer">
+                <span class="card-price"
+                  ><span class="currency">₹</span>7,400</span
+                >
+              </div>
+            </div>
+          </a>
+          <a href="product.html" class="product-card">
+            <div class="card-img-wrap">
+              <img src="Rajasthan.jpg" alt="Rajasthan" loading="lazy" />
+              <div class="card-overlay-btn">Quick View</div>
+            </div>
+            <div class="card-body">
+              <span class="card-region">Rajasthan</span>
+              <span class="card-name">Bandhani Georgette Saree</span>
+              <div class="card-footer">
+                <span class="card-price"
+                  ><span class="currency">₹</span>5,200</span
+                >
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <div id="footer-placeholder"></div>
+    <script>
+      // Nav// Fade-in
+      document.querySelectorAll(".fade-in").forEach((el) =>
+        new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 },
+        ).observe(el),
+      );
+
+      let promoDiscount = 0;
+
+      // ── RENDER CART FROM STORE ────────────────
+      function renderCart() {
+        const cart = Store.getCart();
+        const container = document.getElementById("cartItems");
+        const emptyEl = document.getElementById("cartEmpty");
+        container.innerHTML = "";
+
+        if (cart.length === 0) {
+          emptyEl.classList.add("show");
+          container.style.display = "none";
+          document.getElementById("headerCount").textContent = "0 items";
+          updateSummary();
+          return;
+        }
+
+        emptyEl.classList.remove("show");
+        container.style.display = "block";
+
+        cart.forEach((item) => {
+          const el = document.createElement("div");
+          el.className = "cart-item";
+          el.id = "item-" + item.id;
+          el.innerHTML = `
+            <div class="cart-item-img">
+              <img src="${item.image}" alt="${item.name}" />
+            </div>
+            <div class="cart-item-info">
+              <span class="cart-item-region">${item.region}</span>
+              <span class="cart-item-name">${item.name}</span>
+              <span class="cart-item-variant">${item.variant || "Handloom"}</span>
+              <div class="qty-control">
+                <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+                <span class="qty-num" id="qty-${item.id}">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+              </div>
+            </div>
+            <div class="cart-item-actions">
+              <span class="cart-item-price" id="price-${item.id}">
+                <span class="currency">₹</span>${(item.price * item.qty).toLocaleString("en-IN")}
+              </span>
+              <button class="remove-btn" onclick="removeItem('${item.id}')">Remove</button>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+
+        document.getElementById("headerCount").textContent =
+          cart.length + " item" + (cart.length !== 1 ? "s" : "");
+        updateSummary();
+      }
+
+      function updateSummary() {
+        const subtotal = Store.getCartTotal();
+        const total = Math.max(0, subtotal - promoDiscount);
+        document.getElementById("subtotal").textContent =
+          Store.formatINR(subtotal);
+        document.getElementById("taxes").textContent = "Included";
+        document.getElementById("totalAmt").textContent =
+          Store.formatINR(total);
+      }
+
+      function changeQty(id, delta) {
+        Store.updateCartQty(id, delta);
+        renderCart();
+      }
+
+      function removeItem(id) {
+        const el = document.getElementById("item-" + id);
+        if (!el) return;
+        el.style.opacity = "0";
+        el.style.transform = "translateX(20px)";
+        el.style.transition = "all 0.4s ease";
+        setTimeout(() => {
+          Store.removeFromCart(id);
+          renderCart();
+        }, 400);
+      }
+
+      function applyPromo() {
+        const code = document
+          .getElementById("promoInput")
+          .value.trim()
+          .toUpperCase();
+        if (code === "AARAINA10") {
+          promoDiscount = Math.round(Store.getCartTotal() * 0.1);
+          document.getElementById("promoAmt").textContent =
+            "−" + Store.formatINR(promoDiscount);
+          document.getElementById("promoLine").style.display = "flex";
+          updateSummary();
+          Store.showToast("Promo code applied — 10% off!");
+        } else {
+          Store.showToast("Invalid promo code");
+        }
+      }
+
+      renderCart();
+    </script>
+  
+    <script src="products.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>

@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contact Aaraina — enquire about sarees, custom orders, or weaving partnerships."
+    />
+    <title>Contact | Aaraina Sarees</title>
+    <link rel="icon" href="AARAINA.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;1,300;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ── CONTACT PAGE STYLES ── */
+
+      /* FIX 1: push hero below the fixed nav */
+      .contact-hero {
+        height: 50vh;
+        min-height: 380px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        margin-top: var(--nav-h); /* ← was 0, now clears the fixed nav */
+      }
+
+      .contact-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("hero.jpeg") center 30% / cover no-repeat;
+        filter: brightness(0.5) saturate(1.1);
+        z-index: 0;
+      }
+
+      .contact-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(47, 53, 16, 0.7) 0%,
+          rgba(0, 0, 0, 0.3) 100%
+        );
+        z-index: 1;
+      }
+
+      .contact-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 8%;
+      }
+
+      .contact-hero-content .eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #c6a75e;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .contact-hero-content h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        color: white;
+        line-height: 1.1;
+        font-weight: 600;
+      }
+
+      .contact-hero-content h1 em {
+        font-style: italic;
+        color: #e7d29a;
+      }
+
+      /* MAIN CONTACT SECTION */
+      .contact-main {
+        padding: 100px 8%;
+        background: #faf9f6;
+      }
+
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: start;
+      }
+
+      /* LEFT INFO */
+      .contact-info .label {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #c6a75e;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .contact-info h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        color: #2f3510;
+        line-height: 1.2;
+        margin-bottom: 20px;
+      }
+
+      .contact-info h2::after {
+        display: none;
+      }
+
+      .contact-info > p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 50px;
+        font-size: 0.98rem;
+      }
+
+      .contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .contact-detail-item {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .detail-icon {
+        width: 44px;
+        height: 44px;
+        border: 1px solid #c6a75e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #c6a75e;
+        font-size: 1.1rem;
+      }
+
+      .detail-text strong {
+        display: block;
+        font-size: 0.78rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #2f3510;
+        margin-bottom: 4px;
+        font-family: "Lato", sans-serif;
+      }
+
+      .detail-text p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .detail-text a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .detail-text a:hover {
+        color: #c6a75e;
+      }
+
+      /* WhatsApp CTA */
+      .whatsapp-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 40px;
+        padding: 14px 28px;
+        background: #25d366;
+        color: white;
+        text-decoration: none;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+      }
+
+      .whatsapp-cta:hover {
+        background: #1ebe5b;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        color: white;
+      }
+
+      .whatsapp-cta svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+      }
+
+      /* FORM */
+      .contact-form-wrap {
+        background: white;
+        padding: 60px 50px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+      }
+
+      .contact-form-wrap h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        color: #2f3510;
+        margin-bottom: 8px;
+      }
+
+      .contact-form-wrap > p {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 40px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 8px;
+        font-family: "Lato", sans-serif;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 14px 0;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        background: transparent;
+        font-family: "Lato", sans-serif;
+        font-size: 0.95rem;
+        color: #333;
+        outline: none;
+        transition: border-color 0.3s ease;
+        border-radius: 0;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* FIX 2: Custom select — restore visible dropdown arrow lost by -webkit-appearance:none */
+      .select-wrap {
+        position: relative;
+      }
+
+      .select-wrap::after {
+        content: "";
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid #c6a75e;
+        pointer-events: none;
+      }
+
+      .form-group select {
+        width: 100%;
+        padding: 14px 24px 14px 0; /* right padding for arrow */
+        border: none;
+        border-bottom: 1px solid #ddd;
+        background: transparent;
+        font-family: "Lato", sans-serif;
+        font-size: 0.95rem;
+        color: #333;
+        outline: none;
+        transition: border-color 0.3s ease;
+        border-radius: 0;
+        cursor: pointer;
+        /* strip native chrome/safari arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      .form-group select:focus,
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-bottom-color: #c6a75e;
+      }
+
+      .form-group textarea {
+        resize: none;
+        height: 100px;
+        line-height: 1.7;
+      }
+
+      .form-group .underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: #c6a75e;
+        transition: width 0.4s ease;
+      }
+
+      .form-group input:focus ~ .underline,
+      .form-group select:focus ~ .underline,
+      .form-group textarea:focus ~ .underline {
+        width: 100%;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: #2f3510;
+        color: white;
+        border: none;
+        font-family: "Lato", sans-serif;
+        font-size: 0.82rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        margin-top: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(198, 167, 94, 0.3),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .submit-btn:hover {
+        background: #c6a75e;
+      }
+      .submit-btn:hover::before {
+        left: 100%;
+      }
+
+      .form-success {
+        display: none;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .form-success.active {
+        display: block;
+      }
+
+      .form-success .checkmark {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #c6a75e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 1.5rem;
+        color: #c6a75e;
+      }
+
+      .form-success h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        color: #2f3510;
+        margin-bottom: 10px;
+      }
+
+      .form-success p {
+        color: #888;
+        font-size: 0.95rem;
+      }
+
+      /* FAQ */
+      .contact-faq {
+        padding: 100px 8%;
+        background: white;
+      }
+
+      .faq-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .faq-header .label {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #c6a75e;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .faq-header h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        color: #2f3510;
+      }
+
+      .faq-header h2::after {
+        display: none;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        background: #e8e6d9;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background: white;
+        padding: 40px 35px;
+      }
+
+      .faq-item h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.05rem;
+        color: #2f3510;
+        margin-bottom: 12px;
+      }
+
+      .faq-item p {
+        font-size: 0.92rem;
+        color: #777;
+        line-height: 1.7;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .contact-layout {
+          grid-template-columns: 1fr;
+          gap: 50px;
+        }
+        .contact-form-wrap {
+          padding: 40px 25px;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+      <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaraina Sarees" />
+    <meta property="og:url" content="https://aarainasarees.com/contact.html" />
+    <meta property="og:title" content="Contact | Aaraina Sarees" />
+    <meta property="og:description" content="Get in touch with Aaraina for custom orders, shipping queries or general enquiries." />
+    <meta property="og:image" content="https://aarainasarees.com/hero.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contact | Aaraina Sarees" />
+    <meta name="twitter:description" content="Get in touch with Aaraina for custom orders, shipping queries or general enquiries." />
+    <meta name="twitter:image" content="https://aarainasarees.com/hero.jpeg" />
+  </head>
+  <body>
+
+    <div id="nav-placeholder"></div>
+
+<!-- HERO -->
+    <section class="contact-hero">
+      <div class="contact-hero-content fade-in">
+        <span class="eyebrow">Reach Us</span>
+        <h1>Let's talk about<br /><em>your saree</em></h1>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- MAIN -->
+    <section class="contact-main">
+      <div class="contact-layout">
+        <!-- INFO -->
+        <div class="contact-info fade-in">
+          <span class="label">Get In Touch</span>
+          <h2>We'd love to hear from you</h2>
+          <p>
+            Whether you're looking for a specific weave, want to place a custom
+            order, or simply want to know more — we're here.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-item">
+              <div class="detail-icon">✉</div>
+              <div class="detail-text">
+                <strong>Email</strong>
+                <p>
+                  <a
+                    href="/cdn-cgi/l/email-protection#b1d8dfd7def1d0d0c3d0d8dfd09fd2dedc"
+                    ><span
+                      class="__cf_email__"
+                      data-cfemail="97fef9f1f8d7f6f6e5f6fef9f6b9f4f8fa"
+                      >[email&#160;protected]</span
+                    ></a
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="detail-icon">◎</div>
+              <div class="detail-text">
+                <strong>Location</strong>
+                <p>India<br />Shipping nationwide</p>
+              </div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="detail-icon">◷</div>
+              <div class="detail-text">
+                <strong>Response Time</strong>
+                <p>We reply within 24 hours,<br />Mon – Sat</p>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href="https://wa.me/91XXXXXXXXXX"
+            class="whatsapp-cta"
+            target="_blank"
+          >
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+              />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.524 5.854L0 24l6.336-1.48A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.016-1.374l-.36-.214-3.732.872.944-3.643-.235-.374A9.818 9.818 0 1 1 12 21.818z"
+              />
+            </svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+
+        <!-- FORM -->
+        <div class="contact-form-wrap fade-in">
+          <h3>Send an Enquiry</h3>
+          <p>Tell us what you're looking for and we'll be in touch.</p>
+
+          <div id="contactFormInner">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="firstName" placeholder="Priya" />
+                <span class="underline"></span>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="lastName" placeholder="Sharma" />
+                <span class="underline"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="priya@example.com" />
+              <span class="underline"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Phone (Optional)</label>
+              <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" />
+              <span class="underline"></span>
+            </div>
+
+            <!-- FIX 2: select wrapped in .select-wrap to restore the dropdown arrow -->
+            <div class="form-group">
+              <label>Subject</label>
+              <div class="select-wrap">
+                <select id="subject">
+                  <option value="" disabled selected>Select a topic</option>
+                  <option value="order">Order Enquiry</option>
+                  <option value="custom">Custom / Handloom Order</option>
+                  <option value="wholesale">Wholesale / Bulk</option>
+                  <option value="return">Return / Exchange</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="underline"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Message</label>
+              <textarea
+                id="message"
+                placeholder="Tell us more about what you're looking for..."
+              ></textarea>
+              <span class="underline"></span>
+            </div>
+
+            <button class="submit-btn" onclick="handleSubmit()">
+              Send Message
+            </button>
+          </div>
+
+          <div class="form-success" id="formSuccess">
+            <div class="checkmark">✓</div>
+            <h4>Message Received</h4>
+            <p>
+              Thank you for reaching out. We'll get back to you within 24 hours.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- FAQ -->
+    <section class="contact-faq fade-in">
+      <div class="faq-header">
+        <span class="label">Common Questions</span>
+        <h2>Before you write to us</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Do you ship across India?</h4>
+          <p>
+            Yes, we ship to all major cities and towns across India.
+            International shipping is available on request.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I order a custom handloom saree?</h4>
+          <p>
+            Absolutely. Our Atelier Handloom collection is made-to-order. Reach
+            out with your requirements and we'll work with our weavers to create
+            something special.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h4>What is your return policy?</h4>
+          <p>
+            We accept returns within 7 days of delivery for ready-to-ship items.
+            Custom handloom orders are non-returnable once weaving has begun.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I care for my saree?</h4>
+          <p>
+            Dry clean is recommended for silk and zari sarees. Cotton weaves can
+            be hand-washed in cold water with mild detergent. We include care
+            instructions with every order.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <div id="footer-placeholder"></div>
+    
+  
+    <script src="firebase-config.js"></script>
+    <script src="store.js"></script>
+    <script src="components.js"></script>
+  </body>
+</html>
